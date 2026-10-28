@@ -190,7 +190,7 @@ export function TryOn({ looks, initialLook, onSave, onBook }: TryOnProps) {
         <>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginHorizontal: -PAD }} contentContainerStyle={{ paddingHorizontal: PAD, gap: 10 }}>
             <Press onPress={() => setLookId('eigen')} accessibilityLabel="Eigen kleur" accessibilityState={{ selected: lookId === 'eigen' }} style={{ width: 74, alignItems: 'center', gap: 6 }}>
-              <View style={{ width: 62, height: 62, borderRadius: 18, borderWidth: 2, borderStyle: 'dashed', borderColor: lookId === 'eigen' ? C.blue : 'rgba(255,255,255,0.3)', alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ width: 62, height: 62, borderRadius: 18, borderWidth: 2, borderStyle: 'dashed', borderColor: lookId === 'eigen' ? C.blue : 'rgba(16,28,72,0.3)', alignItems: 'center', justifyContent: 'center' }}>
                 <Icon name="close" size={18} color={C.soft} />
               </View>
               <Txt v="small" size={11} align="center" color={lookId === 'eigen' ? C.text : C.muted}>

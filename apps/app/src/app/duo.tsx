@@ -120,7 +120,7 @@ export default function Duo() {
                 onPress={() => setPick(s.start.getTime())}
                 accessibilityState={{ selected: on }}
                 fxNames={on ? '' : 'glass'}
-                style={{ flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, borderRadius: R.md, borderWidth: 1, borderColor: on ? 'transparent' : 'rgba(255,255,255,0.1)', backgroundColor: on ? C.blue : 'transparent' }}
+                style={{ flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, borderRadius: R.md, borderWidth: 1, borderColor: on ? 'transparent' : 'rgba(16,28,72,0.1)', backgroundColor: on ? C.blue : 'transparent' }}
               >
                 <Txt v="h2" size={20} color={on ? '#FFFFFF' : C.text}>
                   {hhmm(s.start)}

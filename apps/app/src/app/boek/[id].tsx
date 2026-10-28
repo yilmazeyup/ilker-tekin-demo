@@ -165,7 +165,7 @@ export default function BookFlow() {
                   setSlotKey(null);
                 }}
                 accessibilityState={{ selected: on }}
-                style={{ width: 104, borderRadius: R.md, overflow: 'hidden', borderWidth: 2, borderColor: on ? C.blue : 'rgba(255,255,255,0.1)' }}
+                style={{ width: 104, borderRadius: R.md, overflow: 'hidden', borderWidth: 2, borderColor: on ? C.blue : 'rgba(16,28,72,0.1)' }}
               >
                 <View style={{ height: 96 }}>
                   {st ? (

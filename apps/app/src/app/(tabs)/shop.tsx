@@ -63,7 +63,7 @@ export default function Shop() {
       </ScrollView>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
         {items.map((p) => (
-          <View key={p.id} {...fx('glass')} style={{ width: w, borderRadius: R.lg, padding: 12, gap: 8, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
+          <View key={p.id} {...fx('glass')} style={{ width: w, borderRadius: R.lg, padding: 12, gap: 8, borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}>
             <Press onPress={() => router.push({ pathname: '/product/[id]', params: { id: p.id } })} accessibilityLabel={`${p.line} ${p.name}`} style={{ gap: 8 }}>
               <View style={{ height: 150, borderRadius: R.md, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(16,28,72,0.05)' }}>
                 <Bottle product={p} height={128} />

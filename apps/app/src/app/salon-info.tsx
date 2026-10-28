@@ -53,7 +53,7 @@ export default function SalonInfo() {
             key={c.label}
             onPress={() => Linking.openURL(c.url)}
             fxNames="glass"
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}
           >
             <Icon name={c.icon} size={20} color={C.blue} />
             <View style={{ flex: 1 }}>

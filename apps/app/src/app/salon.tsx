@@ -130,7 +130,7 @@ export default function SalonNow() {
         {floor.chairs
           .filter((c) => c.stylist)
           .map((c) => (
-            <View key={c.chair} {...fx('glass')} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
+            <View key={c.chair} {...fx('glass')} style={{ flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}>
               <View {...fx(`dye-${c.stylist!.chroma}`)} style={{ width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', backgroundColor: CHROMA[c.stylist!.chroma].stops[1] }}>
                 <Txt v="h3" color="#140C10" weight="800">
                   {c.chair + 1}

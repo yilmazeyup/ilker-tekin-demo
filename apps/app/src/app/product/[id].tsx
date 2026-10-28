@@ -31,7 +31,7 @@ export default function Product() {
         />
       }
     >
-      <View {...fx('glass')} style={{ height: 330, borderRadius: R.xl, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}>
+      <View {...fx('glass')} style={{ height: 330, borderRadius: R.xl, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}>
         <View {...fx('float')}>
           <Bottle product={p} height={270} />
         </View>

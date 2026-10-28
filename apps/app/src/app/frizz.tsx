@@ -100,7 +100,7 @@ export default function Frizz() {
             key={p.id}
             onPress={() => router.push({ pathname: '/product/[id]', params: { id: p.id } })}
             fxNames="glass"
-            style={{ flex: 1, padding: 10, gap: 6, alignItems: 'center', borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}
+            style={{ flex: 1, padding: 10, gap: 6, alignItems: 'center', borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}
           >
             <Bottle product={p} height={90} />
             <Txt v="small" size={11} align="center" numberOfLines={2}>

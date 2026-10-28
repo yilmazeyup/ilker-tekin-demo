@@ -97,7 +97,7 @@ export default function Me() {
             key={t.to}
             onPress={() => router.push(t.to as never)}
             fxNames="glass"
-            style={{ width: '31.5%', aspectRatio: 1, padding: 12, borderRadius: R.md, justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}
+            style={{ width: '30.8%', aspectRatio: 1, padding: 12, borderRadius: R.md, justifyContent: 'space-between', borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}
           >
             <View {...fx(`dye-${t.chroma}`)} style={{ width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: CHROMA[t.chroma].stops[1] }}>
               <Icon name={t.icon} size={17} color="#140C10" />

@@ -19,7 +19,7 @@ export default function New() {
             key={f.id}
             onPress={() => router.push(f.path as never)}
             fxNames="glass lift"
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 16, padding: 14, borderRadius: R.lg, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 16, padding: 14, borderRadius: R.lg, borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}
           >
             <View {...fx(`dye-${f.chroma}`)} style={{ width: 62, height: 62, borderRadius: 18, alignItems: 'center', justifyContent: 'center', backgroundColor: CHROMA[f.chroma].stops[1] }}>
               <Txt v="title" size={26} color="#140C10">

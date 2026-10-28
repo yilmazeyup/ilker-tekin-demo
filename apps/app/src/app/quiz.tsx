@@ -72,7 +72,7 @@ export default function Quiz() {
                 key={p.id}
                 onPress={() => router.push({ pathname: '/product/[id]', params: { id: p.id } })}
                 fxNames="glass"
-                style={{ width: '48%', padding: 12, gap: 8, alignItems: 'center', borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(255,255,255,0.1)' }}
+                style={{ width: '48%', padding: 12, gap: 8, alignItems: 'center', borderRadius: R.md, borderWidth: 1, borderColor: 'rgba(16,28,72,0.1)' }}
               >
                 <Bottle product={p} height={100} />
                 <Txt v="small" weight="600" align="center" numberOfLines={2}>
