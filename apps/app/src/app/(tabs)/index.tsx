@@ -25,7 +25,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Bottle } from '../../components/Art';
 import { HairArt } from '../../components/HairArt';
-import { HeroVideo } from '../../components/HeroVideo';
+import { HeroImage } from '../../components/HeroImage';
 import { Icon } from '../../components/Icon';
 import { Backdrop } from '../../components/Screen';
 import { Button, Glass, LiveDot, Press, Row, SectionHead, Tag, Txt } from '../../components/ui';
@@ -54,7 +54,7 @@ function VisitHero() {
             : `Je bent om ${hhmm(v.appt.begin)} aan de beurt`;
   return (
     <View style={{ borderRadius: R.xl, overflow: 'hidden', height: 430 }} {...fx('lift')}>
-      <HeroVideo style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
+      <HeroImage style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />
       <View
         style={[
           { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 },
