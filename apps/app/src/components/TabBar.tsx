@@ -2,6 +2,7 @@ import type { BottomTabBarProps } from 'expo-router/js-tabs';
 import { View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { tr } from '../i18n';
 import { C, fx, isWeb, MAX_WIDTH } from '../theme';
 import { Icon, type IconName } from './Icon';
 import { Press, Txt } from './ui';
@@ -25,12 +26,14 @@ export function TabBar({ state, navigateToTab }: BottomTabBarProps) {
     const tab = TABS[route.name];
     const index = state.routes.indexOf(route);
     const focused = state.index === index;
+    // Some languages need longer words ("Ana sayfa", "Boutique"): smaller and closer, on one line.
+    const long = tr(tab.label).length > 6;
     return (
       <Press
         key={route.key}
         accessibilityRole="tab"
         accessibilityState={{ selected: focused }}
-        accessibilityLabel={tab.label}
+        accessibilityLabel={tr(tab.label)}
         scaleTo={0.88}
         onPress={() => {
           if (!focused) navigateToTab(route.key);
@@ -38,7 +41,7 @@ export function TabBar({ state, navigateToTab }: BottomTabBarProps) {
         style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 3, height: 64 }}
       >
         <Icon name={tab.icon} size={22} color={focused ? C.text : C.muted} stroke={focused ? 2 : 1.7} />
-        <Txt v="label" size={9} color={focused ? C.text : C.muted} {...(focused ? fx('ink-chroma') : {})}>
+        <Txt v="label" size={long ? 8 : 9} numberOfLines={1} style={long ? { letterSpacing: 0.4 } : null} color={focused ? C.text : C.muted} {...(focused ? fx('ink-chroma') : {})}>
           {tab.label}
         </Txt>
       </Press>

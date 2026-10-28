@@ -1,4 +1,4 @@
-import { addDays, CHROMA, dateLong, euro, LOOKS, optionOf, PACKAGES, serviceById, trialDate, weekdayShort } from '@ilker/shared';
+import { addDays, CHROMA, dateLong, euro, LOOKS, monthShort, optionOf, PACKAGES, serviceById, trialDate, weekdayShort } from '@ilker/shared';
 import { useMemo, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 
@@ -83,7 +83,7 @@ export default function Bridal() {
                   {d.getDate()}
                 </Txt>
                 <Txt v="small" size={10} color={on ? 'rgba(255,255,255,0.8)' : C.muted}>
-                  {dateLong(d).split(' ')[1].slice(0, 3)}
+                  {monthShort(d)}
                 </Txt>
               </Press>
             );

@@ -6,11 +6,13 @@ import { Platform, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Intro } from '../components/Intro';
+import { installLocale } from '../i18n';
 import { ToastProvider } from '../components/Toast';
 import { DemoProvider } from '../state/demo';
 import { C } from '../theme';
 import { installWebStyles } from '../web/css';
 
+installLocale();
 installWebStyles();
 SplashScreen.preventAutoHideAsync().catch(() => {});
 

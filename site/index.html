@@ -7,6 +7,31 @@
     <meta name="robots" content="noindex, nofollow" />
     <meta name="theme-color" content="#FFFFFF" />
     <title>İlker Tekin · demo</title>
+    <script>
+      // The language: ?lang= first, then the last choice on this device (the app and the panel read the same), else
+      // Dutch. Set before the frames below load, so they open in it as well.
+      (function () {
+        var all = ['nl', 'en', 'tr', 'ar', 'fr', 'de', 'it'];
+        var lang = 'nl';
+        try {
+          var asked = new URLSearchParams(location.search).get('lang');
+          var saved = localStorage.getItem('ilker-lang');
+          lang = all.indexOf(asked) >= 0 ? asked : all.indexOf(saved) >= 0 ? saved : 'nl';
+          localStorage.setItem('ilker-lang', lang);
+        } catch (e) {}
+        var root = document.documentElement;
+        root.lang = lang;
+        root.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        if (lang !== 'nl') root.className += ' i18n-wait';
+        if (lang === 'ar') {
+          var fonts = document.createElement('link');
+          fonts.rel = 'stylesheet';
+          fonts.href = 'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap';
+          document.head.appendChild(fonts);
+        }
+        window.LANG = lang;
+      })();
+    </script>
     <meta name="description" content="Een ledenapp en een salonscherm voor İlker Tekin Hairstylist &amp; Academy in Eindhoven. Demo met fictieve klanten." />
     <link rel="icon" href="app/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -250,17 +275,6 @@
         object-fit: cover;
         display: block;
       }
-      .film .tag {
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        font: 500 10px/1 var(--mono);
-        letter-spacing: 0.16em;
-        padding: 6px 9px;
-        border-radius: 7px;
-        background: rgba(6, 11, 34, 0.5);
-        color: #fff;
-      }
       .film .caption {
         position: absolute;
         left: 28px;
@@ -412,17 +426,6 @@
         width: 100%;
         display: block;
       }
-      .tryon .tag {
-        position: absolute;
-        top: 14px;
-        left: 14px;
-        font: 500 10px/1 var(--mono);
-        letter-spacing: 0.16em;
-        padding: 6px 9px;
-        border-radius: 7px;
-        background: rgba(6, 11, 34, 0.5);
-        color: #fff;
-      }
       .truth {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -479,18 +482,99 @@
           aspect-ratio: 4 / 5;
         }
       }
+      .help-link {
+        margin-top: 22px;
+        display: inline-flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 20px 10px 10px;
+        border-radius: 20px;
+        text-decoration: none;
+        transition: transform 0.25s;
+      }
+      .help-link[hidden] {
+        display: none;
+      }
+      .help-link:hover {
+        transform: translateY(-2px);
+      }
+      .help-link .play {
+        flex: none;
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='16'%3E%3Cpath d='M1 1l12 7-12 7z' fill='%23fff'/%3E%3C/svg%3E") no-repeat 54% 50%;
+        box-shadow: 0 8px 20px -8px rgba(39, 65, 214, 0.7);
+      }
+      .help-link strong {
+        display: block;
+        font-weight: 600;
+      }
+      .help-link span span {
+        display: block;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      [dir='rtl'] .help-link {
+        padding: 10px 10px 10px 20px;
+      }
+      .i18n-wait body {
+        opacity: 0;
+      }
+      body {
+        transition: opacity 0.25s;
+      }
+      select.lang {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%232741d6' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 12px center;
+        border-radius: 999px;
+        padding: 9px 30px 9px 14px;
+        font: 600 13px/1 var(--sans);
+        color: var(--text);
+        cursor: pointer;
+      }
+      header.bar .right {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      [dir='rtl'] {
+        --serif: 'Bodoni Moda', 'Noto Naskh Arabic', Georgia, serif;
+        --sans: 'Inter Tight', 'IBM Plex Sans Arabic', Arial, sans-serif;
+        --mono: 'DM Mono', 'IBM Plex Sans Arabic', monospace;
+      }
+      [dir='rtl'] select.lang {
+        background-position: left 12px center;
+        padding: 9px 14px 9px 30px;
+      }
+      [dir='rtl'] .kicker,
+      [dir='rtl'] .chip {
+        letter-spacing: 0;
+      }
     </style>
   </head>
   <body>
     <div class="wrap">
       <header class="bar">
         <a class="logo blue" href="./">İlker Tekin<small>Demo</small></a>
-        <a class="btn small" href="admin/">Salonscherm ↗</a>
+        <div class="right">
+          <select class="lang" id="lang" aria-label="Taal" translate="no">
+            <option value="nl">Nederlands</option>
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+            <option value="ar">العربية</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+          </select>
+          <a class="btn small" href="admin/">Salonscherm ↗</a>
+        </div>
       </header>
       <section class="hero" style="padding-top: 20px">
         <div>
           <div class="kicker">Hairstylist &amp; Academy · Poeijersstraat 37, Eindhoven</div>
-          <h1 style="margin-top: 16px">Een eigen app voor <span class="blue">İlker Tekin</span>, en de salon live op één scherm.</h1>
+          <h1 style="margin-top: 16px" data-i18n="Een eigen app voor {name}, en de salon live op één scherm.">Een eigen app voor <span class="blue">İlker Tekin</span>, en de salon live op één scherm.</h1>
           <p class="lead">
             Alles wat de site nu doet (het menu met prijzen, Book now, openingstijden en contact) en twintig dingen erbij: van de drukte in de salon en kleur passen op je eigen foto tot een drankje aan je stoel. Het salonscherm toont de vloer in 3D: wie in welke stoel zit, wie wacht en wie er komt.
           </p>
@@ -498,6 +582,10 @@
             <a class="btn primary" href="app/">Open de app</a>
             <a class="btn" href="admin/">Open het salonscherm</a>
           </div>
+          <a class="help-link glass" id="open-help" href="hulp/" hidden>
+            <span class="play" aria-hidden="true"></span>
+            <span><strong>Bekijk de uitlegvideo</strong><span>De app en het salonscherm in een paar minuten, ondertiteld in zeven talen.</span></span>
+          </a>
           <p class="note">Een demo met verzonnen klanten en een verzonnen team naast İlker. Er wordt niets echt geboekt of betaald.</p>
         </div>
         <div class="phone" id="phone">
@@ -510,7 +598,6 @@
     <div class="wrap">
       <div class="film">
         <video src="media/intro-landscape.mp4" poster="media/poster-landscape.jpg" autoplay muted loop playsinline></video>
-        <span class="tag">AI-VIDEO</span>
         <div class="caption">
           <div class="kicker" style="color: rgba(255, 255, 255, 0.7)">De opening van de app</div>
           <h2>Elke start van de app begint met een haarflip.</h2>
@@ -566,7 +653,6 @@
       <div class="wrap split">
         <div class="tryon">
           <img src="media/tryon-sample.jpg" alt="Voorbeeld voor de pasruimte" />
-          <span class="tag">AI-BEELD</span>
         </div>
         <div>
           <div class="kicker">Kleur &amp; kapsel passen</div>
@@ -600,7 +686,7 @@
             <ul>
               <li>Selin, Noor, Daan, Lina en Kim, en alle klanten, onder wie Yara</li>
               <li>De Club, cadeaukaarten, shopprijzen, voorraad en drankenkaart</li>
-              <li>De 3D-renders van looks en de AI-video en AI-beelden</li>
+              <li>De 3D-renders van de looks, de openingsvideo en de voorbeeldfoto</li>
               <li>Er staan geen verzonnen reviews in; betalen en boeken zijn tests</li>
             </ul>
           </div>
@@ -614,6 +700,16 @@
 
     <script>
       const FEATURES = [{"no":1,"title":"Nu in de salon","line":"Hoe druk, hoe lang wachten, de eerstvolgende stoel, en meteen in de inloopwachtrij.","path":"/salon","c":["#FF9AA0","#F2243C","#8A0A1E"]},{"no":2,"title":"Kleur passen","line":"Probeer koper, honing of ijsblond op je eigen foto.","path":"/kleurstudio","c":["#FFB27A","#FF6A2C","#B83A12"]},{"no":3,"title":"Look-deck","line":"Swipe door looks en bewaar je favorieten voor je stylist.","path":"/looks","c":["#FFC2D6","#FF5C93","#B3165A"]},{"no":4,"title":"Consult vooraf","line":"Foto van je haar nu en je droomlook: je stylist ziet ze voor je komt.","path":"/consult","c":["#D9CCFF","#8F6BFF","#4A23C9"]},{"no":5,"title":"Haarpaspoort","line":"Al je bezoeken, je kleurformule en de producten die we gebruikten.","path":"/paspoort","c":["#E2C3A3","#9B6A45","#4A2E1C"]},{"no":6,"title":"Uitgroeiwekker","line":"Weet hoeveel je uitgroei is, en wanneer je moet boeken.","path":"/uitgroei","c":["#FFE6A6","#FFC24B","#C98316"]},{"no":7,"title":"Haarquiz","line":"Zes vragen, jouw routine en de producten die erbij passen.","path":"/quiz","c":["#F1F6FF","#A9C6FF","#5A7FE6"]},{"no":8,"title":"Wachtlijst","line":"Eerder terecht? Je krijgt een seintje als er een plek vrijkomt.","path":"/wachtlijst","c":["#D9CCFF","#8F6BFF","#4A23C9"]},{"no":9,"title":"Live afspraak","line":"Inchecken met QR, de inwerktijd live en een seintje als je stylist uitloopt.","path":"/live","c":["#FF9AA0","#F2243C","#8A0A1E"]},{"no":10,"title":"Drankje aan je stoel","line":"Bestel je cappuccino vanuit de stoel.","path":"/drankje","c":["#E2C3A3","#9B6A45","#4A2E1C"]},{"no":11,"title":"Club","line":"Niveaus, beloningen, cadeaukaarten en vriendinnen uitnodigen.","path":"/club","c":["#FFB27A","#FF6A2C","#B83A12"]},{"no":12,"title":"Shop & ophalen","line":"Olaplex en L’Oréal Professionnel, klaar om op te halen in de salon.","path":"/shop","c":["#FFE6A6","#FFC24B","#C98316"]},{"no":13,"title":"Nazorg","line":"Per behandeling wat wel en niet, met herinneringen.","path":"/nazorg","c":["#F1F6FF","#A9C6FF","#5A7FE6"]},{"no":14,"title":"Bruid & events","line":"Pakketten met proefkapsel, gepland vanaf je trouwdatum.","path":"/bruid","c":["#FFC2D6","#FF5C93","#B3165A"]},{"no":15,"title":"Samen in de stoel","line":"Twee stoelen naast elkaar, voor jou en je vriendin.","path":"/duo","c":["#D9CCFF","#8F6BFF","#4A23C9"]},{"no":16,"title":"Review met foto","line":"Laat je nieuwe look zien na je bezoek.","path":"/review","c":["#FFC2D6","#FF5C93","#B3165A"]},{"no":17,"title":"Betalen & fooi","line":"Afrekenen in de app, met een fooi voor je stylist.","path":"/betalen","c":["#FF9AA0","#F2243C","#8A0A1E"]},{"no":18,"title":"Frizz-voorspelling","line":"De luchtvochtigheid in Eindhoven vandaag, en wat je haar nodig heeft.","path":"/frizz","c":["#F1F6FF","#A9C6FF","#5A7FE6"]},{"no":19,"title":"Portfolio’s","line":"Bekijk het werk van elke stylist en boek direct.","path":"/team","c":["#FFB27A","#FF6A2C","#B83A12"]},{"no":20,"title":"Extensions-planner","line":"Kies lengte en volume: zoveel strengen, deze prijs.","path":"/extensions","c":["#FFE6A6","#FFC24B","#C98316"]}];
+      const LANG = window.LANG || 'nl';
+      const withLang = (href) => (LANG === 'nl' ? href : href + (href.includes('?') ? '&' : '?') + 'lang=' + LANG);
+      const menu = document.getElementById('lang');
+      menu.value = LANG;
+      menu.addEventListener('change', () => {
+        const url = new URL(location.href);
+        url.searchParams.set('lang', menu.value);
+        location.replace(url.toString());
+      });
+      for (const a of document.querySelectorAll('a[href^="app/"], a[href^="admin/"]')) a.setAttribute('href', withLang(a.getAttribute('href')));
       const grid = document.getElementById('features');
       const frame = document.getElementById('app-frame');
       for (const f of FEATURES) {
@@ -623,7 +719,7 @@
           '<span class="no" style="background:linear-gradient(135deg,' + f.c[0] + ',' + f.c[1] + ')">' + String(f.no).padStart(2, '0') + '</span>' +
           '<h3>' + f.title + '</h3><p>' + f.line + '</p><span class="go">Bekijk in de app →</span>';
         b.addEventListener('click', () => {
-          frame.src = 'app' + f.path + '?intro=0';
+          frame.src = withLang('app' + f.path + '?intro=0');
           document.getElementById('phone').scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
         grid.appendChild(b);
@@ -639,6 +735,101 @@
       };
       addEventListener('resize', fit);
       fit();
+
+      // Dutch is written in the page; another language looks each text up in the same dictionary as the app and the
+      // panel (i18n/<lang>.json), with {placeholders} for names and numbers and " · " parts looked up one by one.
+      function translator(dict) {
+        const own = (k) => Object.prototype.hasOwnProperty.call(dict, k);
+        const folded = new Map(Object.keys(dict).filter((k) => !k.includes('{')).map((k) => [k.toLowerCase(), k]));
+        const escape = (t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const patterns = Object.keys(dict)
+          .filter((k) => k.includes('{'))
+          .map((k) => {
+            const parts = k.split(/\{(\w+)\}/);
+            const literal = parts.filter((_, i) => i % 2 === 0).join('');
+            if (!/\p{L}/u.test(literal)) return null;
+            const re = new RegExp('^' + parts.map((p, i) => (i % 2 ? '(.+?)' : escape(p))).join('') + '$', 's');
+            return { k, re, names: parts.filter((_, i) => i % 2), weight: literal.length };
+          })
+          .filter(Boolean)
+          .sort((a, b) => b.weight - a.weight);
+        const look = (text, depth) => {
+          const core = text.trim();
+          if (!core || !/\p{L}/u.test(core)) return null;
+          const wrap = (t) => text.replace(core, () => t);
+          if (own(core)) return wrap(dict[core]);
+          const f = folded.get(core.toLowerCase());
+          if (f) return wrap(dict[f]);
+          const punct = /^(.*?\p{L}.*?)([,.:;!?…]+)$/u.exec(core);
+          if (punct && own(punct[1])) return wrap(dict[punct[1]] + punct[2]);
+          if (depth > 3) return null;
+          for (const p of patterns) {
+            const m = p.re.exec(core);
+            if (!m) continue;
+            const values = {};
+            p.names.forEach((n, i) => (values[n] = look(m[i + 1], depth + 1) ?? m[i + 1]));
+            return wrap(dict[p.k].replace(/\{(\w+)\}/g, (x, n) => values[n] ?? x));
+          }
+          for (const sep of [' · ', ' — ', ' – ', ': ']) {
+            if (!core.includes(sep)) continue;
+            let changed = false;
+            const out = core.split(sep).map((part) => {
+              const t = look(part, depth + 1);
+              if (t != null) changed = true;
+              return t ?? part;
+            });
+            if (changed) return wrap(out.join(sep));
+          }
+          return null;
+        };
+        return (text) => look(text, 0) ?? text;
+      }
+
+      function translatePage(dict) {
+        const t = translator(dict);
+        for (const el of document.querySelectorAll('[data-i18n]')) {
+          const value = dict[el.dataset.i18n];
+          if (value && el.firstElementChild) el.innerHTML = value.replace('{name}', el.firstElementChild.outerHTML);
+        }
+        const skip = 'script, style, [translate="no"], [data-i18n]';
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+          acceptNode: (n) => (n.parentElement && !n.parentElement.closest(skip) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT),
+        });
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        for (const n of nodes) {
+          if (!/\p{L}/u.test(n.nodeValue)) continue;
+          const text = n.nodeValue.replace(/\s+/g, ' ');
+          const out = t(text);
+          if (out !== text) n.nodeValue = out;
+        }
+        for (const el of document.querySelectorAll('[title], [alt], [aria-label]')) {
+          for (const name of ['title', 'alt', 'aria-label']) {
+            const v = el.getAttribute(name);
+            if (v && !el.closest('[translate="no"]')) el.setAttribute(name, t(v));
+          }
+        }
+        document.title = t(document.title);
+      }
+
+      // The explainer video has a page of its own; the link appears once that page is published.
+      const help = document.getElementById('open-help');
+      help.setAttribute('href', withLang('hulp/'));
+      fetch('hulp/', { method: 'HEAD', cache: 'no-store' })
+        .then((response) => {
+          help.hidden = !response.ok;
+        })
+        .catch(() => {});
+
+      const shown = () => document.documentElement.classList.remove('i18n-wait');
+      if (LANG !== 'nl') {
+        setTimeout(shown, 2500);
+        fetch('i18n/' + LANG + '.json')
+          .then((r) => r.json())
+          .then(translatePage)
+          .catch(() => {})
+          .finally(shown);
+      }
     </script>
   </body>
 </html>

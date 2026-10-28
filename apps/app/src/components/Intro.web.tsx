@@ -1,10 +1,11 @@
 import { Asset } from 'expo-asset';
 import { useEffect, useRef, useState } from 'react';
 
+import { tr } from '../i18n';
 import { fontsReady } from '../web/css';
 
 /**
- * The opening on the web: the Canva AI clip of a woman tossing her copper-to-honey balayage, graded into the app's
+ * The opening on the web: the Canva clip of a woman tossing her copper-to-honey balayage, graded into the app's
  * midnight blue (a vertical cut on phones, the full frame on wide screens). As the hair settles the salon's name
  * rises letter by letter; then the picture opens up into the app. A tap skips it.
  */
@@ -62,7 +63,7 @@ export function Intro({ onDone }: { onDone: () => void }) {
     <div
       role="button"
       tabIndex={0}
-      aria-label="İlker Tekin Hairstylist & Academy. Tik om verder te gaan"
+      aria-label={tr('İlker Tekin Hairstylist & Academy. Tik om verder te gaan')}
       onClick={finish}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') && finish()}
       style={{
@@ -190,25 +191,6 @@ export function Intro({ onDone }: { onDone: () => void }) {
         >
           Eindhoven
         </div>
-      </div>
-      <div
-        style={{
-          position: 'absolute',
-          top: 'max(14px, env(safe-area-inset-top))',
-          right: 14,
-          padding: '5px 9px',
-          borderRadius: 7,
-          background: 'rgba(6,11,34,0.55)',
-          border: '1px solid rgba(16,28,72,0.14)',
-          color: 'rgba(246,238,230,0.85)',
-          fontFamily: '"DM Mono", ui-monospace, monospace',
-          fontSize: 9.5,
-          letterSpacing: '0.16em',
-          opacity: phase === 'wait' ? 0 : 1,
-          transition: 'opacity .6s ease .4s',
-        }}
-      >
-        AI-VIDEO
       </div>
       <div
         style={{

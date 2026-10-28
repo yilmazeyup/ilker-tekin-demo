@@ -1,3 +1,4 @@
+import { trHtml } from '@ilker/shared';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
@@ -109,7 +110,7 @@ export class TeamScene {
       const html = `<b>${row.name}</b><span>${row.role}</span><div class="team-nums"><em>${Math.round(row.load * 100)}%</em><em>${row.revenue}</em><em>${row.clients} klanten</em></div><small>${row.working ? row.now : 'Vrij vandaag'}</small>${row.working ? `<small class="tip">Fooi ${row.tips}</small>` : ''}`;
       if (html !== s.html) {
         s.html = html;
-        s.tag.innerHTML = html;
+        s.tag.innerHTML = trHtml(html);
         s.tag.dataset.on = row.working ? '1' : '0';
       }
     });
@@ -188,7 +189,7 @@ export class SalesScene {
       const html = `<b>${d.total}</b><span class="${d.today ? 'today' : ''}">${d.label}</span>`;
       if (html !== c.html) {
         c.html = html;
-        c.tag.innerHTML = html;
+        c.tag.innerHTML = trHtml(html);
       }
     });
   }
@@ -272,7 +273,7 @@ export class ShopScene {
         this.bottles.add(g);
       }
       const low = item.stock <= item.min;
-      const tag = el(`shelf-tag ${low ? 'low' : ''}`, `<b>${item.label}</b><span>${item.stock} op voorraad${low ? ' · bijbestellen' : ''}</span>`);
+      const tag = el(`shelf-tag ${low ? 'low' : ''}`, trHtml(`<b>${item.label}</b><span>${item.stock} op voorraad${low ? ' · bijbestellen' : ''}</span>`));
       this.stage.label(tag, this.bottles, [x0 + 0.9, y - 0.12, -0.75]);
     });
     bags.forEach((bag, i) => {

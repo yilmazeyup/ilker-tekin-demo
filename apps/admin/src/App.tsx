@@ -5,7 +5,10 @@ import {
   clock as hhmm,
   dayLong,
   euro,
+  getLocale,
   greeting,
+  LOCALE_NAMES,
+  LOCALES,
   MEMBER,
   occupancy,
   phaseOf,
@@ -16,7 +19,9 @@ import {
   STEP_LABEL,
   stepAt,
   stylistById,
+  weekdayLong,
   type Client,
+  type Locale,
 } from '@ilker/shared';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -26,6 +31,7 @@ import { Floor } from './components/Floor';
 import { Clients, ClientDrawer, Sales, Shop, Team } from './components/Panels';
 import { keepMode, SalesRoom, ShopRoom, storedMode, TeamRoom, ViewSwitch, type ViewMode } from './components/Rooms';
 import { eventsToday, feedFor, floorView, ordersOn, revenueUntil, useBridge, useDay } from './data';
+import { chooseLocale } from './i18n/install';
 
 /** Where the member app lives on the demo site, next to this panel. */
 const APP_URL = '../app/';
@@ -148,6 +154,13 @@ export function App() {
           )}
         </div>
         <span className="chip-demo">Demo · fictieve klanten</span>
+        <select className="lang" value={getLocale()} onChange={(e) => chooseLocale(e.target.value as Locale)} aria-label="Taal">
+          {LOCALES.map((l) => (
+            <option key={l} value={l} translate="no">
+              {LOCALE_NAMES[l]}
+            </option>
+          ))}
+        </select>
         <a className="btn sm cream" href={APP_URL} target="_blank" rel="noopener">
           Open de app ↗
         </a>
@@ -189,7 +202,7 @@ export function App() {
                   <em className={delta >= 0 ? 'up' : 'down'}>
                     {delta >= 0 ? '▲' : '▼'} {Math.round(Math.abs(delta) * 100)}%
                   </em>{' '}
-                  t.o.v. een gewone {dayLong(now).split(' ')[0]}
+                  {`t.o.v. een gewone ${weekdayLong(now)}`}
                 </span>
               </div>
             </div>

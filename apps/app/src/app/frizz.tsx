@@ -1,4 +1,4 @@
-import { frizzFrom, PRODUCTS, euro } from '@ilker/shared';
+import { decimal, euro, frizzFrom, PRODUCTS } from '@ilker/shared';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
@@ -42,7 +42,7 @@ export default function Frizz() {
           {[
             { icon: 'drop' as const, label: `${Math.round(weather.humidity)}%`, sub: 'vocht' },
             { icon: 'thermo' as const, label: `${Math.round(weather.temperature)}°`, sub: 'temperatuur' },
-            { icon: 'cloud' as const, label: `${weather.dewPoint.toFixed(1).replace('.', ',')}°`, sub: 'dauwpunt' },
+            { icon: 'cloud' as const, label: `${decimal(weather.dewPoint)}°`, sub: 'dauwpunt' },
           ].map((x) => (
             <View key={x.sub} style={{ alignItems: 'center', gap: 4 }}>
               <Icon name={x.icon} size={20} color={C.soft} />

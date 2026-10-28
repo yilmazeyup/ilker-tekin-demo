@@ -1,5 +1,7 @@
 import { CHROMA, CHROMA_ORDER } from '@ilker/shared';
 
+import { rtl } from '../i18n';
+
 /**
  * The web layer of the look: liquid glass, dye gradients, grain and the slow colour ribbons behind every screen.
  * Elements opt in with `fx('…')` (a data attribute), so React Native's own styles stay untouched.
@@ -107,7 +109,7 @@ export function installWebStyles() {
   }
   const fonts = document.createElement('link');
   fonts.rel = 'stylesheet';
-  fonts.href = FONTS;
+  fonts.href = rtl() ? `${FONTS}&family=Noto+Naskh+Arabic:wght@400..700&family=IBM+Plex+Sans+Arabic:wght@400;500;600` : FONTS;
   document.head.appendChild(fonts);
   const style = document.createElement('style');
   style.id = 'chroma-fx';

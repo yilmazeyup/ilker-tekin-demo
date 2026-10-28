@@ -8,6 +8,7 @@ import { PhotoPicker } from '../components/PhotoPicker';
 import { Screen } from '../components/Screen';
 import { useToast } from '../components/Toast';
 import { Button, Chip, DemoNote, Glass, Press, Row, Tag, Txt } from '../components/ui';
+import { tr } from '../i18n';
 import { useDemo } from '../state/demo';
 import { useVisit } from '../state/live';
 import { C, FONT, PAD, R } from '../theme';
@@ -90,7 +91,7 @@ export default function Consult() {
         <TextInput
           value={consult.notes}
           onChangeText={(notes) => setConsult({ notes })}
-          placeholder="Iets anders? Bijvoorbeeld: niet te koel, pony laten staan…"
+          placeholder={tr('Iets anders? Bijvoorbeeld: niet te koel, pony laten staan…')}
           placeholderTextColor={C.faint}
           multiline
           style={{ minHeight: 80, padding: 14, borderRadius: R.md, backgroundColor: 'rgba(16,28,72,0.06)', color: C.text, fontFamily: FONT.sans, fontSize: 15, textAlignVertical: 'top' }}

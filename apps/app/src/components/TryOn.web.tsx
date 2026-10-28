@@ -163,7 +163,7 @@ export function TryOn({ looks, initialLook, onSave, onBook }: TryOnProps) {
         </div>
         <View style={{ position: 'absolute', top: 12, left: 12, right: 12, flexDirection: 'row', justifyContent: 'space-between' }} pointerEvents="none">
           <Tag label={status === 'manual' ? 'Schilder je haar' : 'Voor'} color={C.white} bg="rgba(6,11,34,0.6)" />
-          <Tag label={photo ? 'Jouw foto' : 'AI-voorbeeld'} color={C.white} bg="rgba(6,11,34,0.6)" />
+          <Tag label={photo ? 'Jouw foto' : 'Voorbeeld'} color={C.white} bg="rgba(6,11,34,0.6)" />
           {status !== 'manual' ? <Tag label="Na" color="#140C10" bg={C.cream} /> : null}
         </View>
       </View>
@@ -271,7 +271,7 @@ export function TryOn({ looks, initialLook, onSave, onBook }: TryOnProps) {
         </Press>
       </Row>
       <Txt v="small" color={C.faint}>
-        Privé: je foto verlaat je telefoon niet. De AI (Google MediaPipe) draait in je browser. Het voorbeeld is een AI-beeld.
+        Privé: je foto verlaat je telefoon niet. De AI (Google MediaPipe) draait in je browser.
       </Txt>
     </View>
   );

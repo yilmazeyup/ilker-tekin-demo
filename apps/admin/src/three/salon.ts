@@ -1,3 +1,4 @@
+import { tr, trHtml } from '@ilker/shared';
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import { CSS2DObject } from 'three/addons/renderers/CSS2DRenderer.js';
@@ -434,7 +435,7 @@ export class SalonScene {
   }
 
   private areaLabel(text: string, at: Vec) {
-    const object = new CSS2DObject(el('area-tag', text));
+    const object = new CSS2DObject(el('area-tag', tr(text)));
     object.position.set(...at);
     this.root.add(object);
   }
@@ -466,7 +467,7 @@ export class SalonScene {
       const html = this.chairHtml(v);
       if (html !== station.html) {
         station.html = html;
-        station.tag.innerHTML = html;
+        station.tag.innerHTML = trHtml(html);
         station.tag.dataset.state = appt ? (appt.member ? 'member' : 'busy') : v.stylist ? 'free' : 'off';
       }
     }
@@ -489,7 +490,7 @@ export class SalonScene {
       : '<b>Wachtruimte</b><span>Niemand wacht</span>';
     if (waitHtml !== this.waitHtml.value) {
       this.waitHtml.value = waitHtml;
-      this.waitTag.innerHTML = waitHtml;
+      this.waitTag.innerHTML = trHtml(waitHtml);
     }
   }
 

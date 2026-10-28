@@ -1,5 +1,7 @@
 // İlker Tekin Hairstylist's shared code: the salon's facts and menu, the team, the demo day, and the link between the
 // app and the panel.
+export * from './locales';
+export * from './i18n';
 export * from './format';
 export * from './random';
 export * from './salon';

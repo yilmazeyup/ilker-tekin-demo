@@ -36,7 +36,8 @@ export function LiveIsland() {
     line = { icon: 'door', title: 'In de inloopwachtrij', value: `± ${Math.max(1, Math.round(left / 60000))} min`, to: '/salon' };
   }
   if (live.drink && drinkAge < 4 * 60000 && (!line || line.icon !== 'timer')) {
-    line = { icon: 'cup', title: `${drinkById(live.drink.id).name} ${drinkAge < 60000 ? 'besteld' : drinkAge < 180000 ? 'wordt gemaakt' : 'komt eraan'}`, to: '/drankje' };
+    const drink = drinkById(live.drink.id).name;
+    line = { icon: 'cup', title: drinkAge < 60000 ? `${drink} besteld` : drinkAge < 180000 ? `${drink} wordt gemaakt` : `${drink} komt eraan`, to: '/drankje' };
   }
   if (!line) return null;
   const target = line.to;

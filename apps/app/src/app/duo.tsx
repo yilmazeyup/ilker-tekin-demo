@@ -5,6 +5,7 @@ import { ScrollView, TextInput, View } from 'react-native';
 
 import { Screen } from '../components/Screen';
 import { Button, Chip, Glass, Press, Row, Tag, Txt } from '../components/ui';
+import { tr } from '../i18n';
 import { useClock } from '../state/clock';
 import { useDemo } from '../state/demo';
 import { C, FONT, fx, PAD, R } from '../theme';
@@ -75,7 +76,7 @@ export default function Duo() {
         <TextInput
           value={friend}
           onChangeText={setFriend}
-          placeholder="Naam van je vriendin"
+          placeholder={tr('Naam van je vriendin')}
           placeholderTextColor={C.faint}
           style={{ height: 48, paddingHorizontal: 14, borderRadius: R.md, backgroundColor: 'rgba(16,28,72,0.06)', color: C.text, fontFamily: FONT.sans, fontSize: 15 }}
         />

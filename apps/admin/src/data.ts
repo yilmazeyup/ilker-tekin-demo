@@ -1,9 +1,15 @@
 import {
   addDays,
+  type Appt,
+  type BridgeEvent,
+  type BridgeState,
   CATEGORIES,
+  type CategoryId,
   CHROMA,
+  type Client,
   clock as hhmm,
   dateKey,
+  dayShort,
   drinkById,
   euro,
   floorAt,
@@ -16,23 +22,18 @@ import {
   salonDay,
   salonHours,
   serviceById,
+  type ShopOrder,
   shopOrders,
   shortName,
   startOfDay,
   startOfWeek,
   STEP_LABEL,
   stepAt,
-  STYLISTS,
   stylistById,
+  STYLISTS,
   visitAppt,
   withVisit,
   worksOn,
-  type Appt,
-  type BridgeEvent,
-  type BridgeState,
-  type CategoryId,
-  type Client,
-  type ShopOrder,
 } from '@ilker/shared';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -173,7 +174,7 @@ export function feedFor(appts: Appt[], now: Date, bridge: BridgeState): FeedItem
         });
         break;
       case 'booking':
-        items.push({ ...base, icon: '＋', tone: CHROMA.roze.stops[1], title: e.duo ? 'Duo-afspraak geboekt in de app' : 'Geboekt in de app', text: `${e.name} · ${serviceById(e.service).short} · ${new Date(e.start).toLocaleDateString('nl-NL', { weekday: 'short', day: 'numeric', month: 'short' })} ${hhmm(new Date(e.start))}` });
+        items.push({ ...base, icon: '＋', tone: CHROMA.roze.stops[1], title: e.duo ? 'Duo-afspraak geboekt in de app' : 'Geboekt in de app', text: `${e.name} · ${serviceById(e.service).short} · ${dayShort(new Date(e.start))} ${hhmm(new Date(e.start))}` });
         break;
       case 'waitlist':
         items.push({ ...base, icon: '≡', tone: CHROMA.violet.stops[1], title: 'Op de wachtlijst', text: `${e.name} · ${serviceById(e.service).short}` });

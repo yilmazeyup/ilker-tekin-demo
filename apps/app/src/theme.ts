@@ -12,9 +12,9 @@ export { CHROMA };
 export const isWeb = Platform.OS === 'web';
 
 export const FONT = {
-  display: isWeb ? '"Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif' : Platform.select({ ios: 'Didot', default: 'serif' }),
-  sans: isWeb ? '"Inter Tight", "Helvetica Neue", Arial, sans-serif' : undefined,
-  mono: isWeb ? '"DM Mono", ui-monospace, Menlo, monospace' : Platform.select({ ios: 'Menlo', default: 'monospace' }),
+  display: isWeb ? '"Bodoni Moda", "Didot", "Bodoni 72", "Noto Naskh Arabic", Georgia, serif' : Platform.select({ ios: 'Didot', default: 'serif' }),
+  sans: isWeb ? '"Inter Tight", "Helvetica Neue", "IBM Plex Sans Arabic", Arial, sans-serif' : undefined,
+  mono: isWeb ? '"DM Mono", ui-monospace, Menlo, "IBM Plex Sans Arabic", monospace' : Platform.select({ ios: 'Menlo', default: 'monospace' }),
 };
 
 export const R = { xs: 8, sm: 12, md: 18, lg: 26, xl: 34, pill: 999 };

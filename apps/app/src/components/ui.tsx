@@ -15,6 +15,7 @@ import {
   type ViewStyle,
 } from 'react-native';
 
+import { localize, rtl } from '../i18n';
 import { C, CHROMA, FONT, fx, isWeb, R, web } from '../theme';
 import { Icon, type IconName } from './Icon';
 
@@ -63,6 +64,9 @@ type TxtProps = TextProps & {
   size?: number;
 };
 
+/** Arabic letters join up; spacing them out would break the script. */
+const JOINED: TextStyle = { letterSpacing: 0 };
+
 export function Txt({ v = 'body', color = C.text, align, ink, weight, size, style, children, ...rest }: TxtProps) {
   const base = VARIANTS[v];
   const sized: TextStyle | null = size ? { fontSize: size, lineHeight: Math.round(size * ((base.lineHeight as number) / (base.fontSize as number))) } : null;
@@ -71,9 +75,9 @@ export function Txt({ v = 'body', color = C.text, align, ink, weight, size, styl
     <Text
       {...rest}
       {...fx([ink ? `ink-${ink}` : '', tabular, v === 'hero' || v === 'display' || v === 'title' ? 'balance' : ''].filter(Boolean).join(' '))}
-      style={[base, sized, { color: ink && !isWeb ? CHROMA[ink === 'chroma' ? 'roze' : ink].stops[1] : color }, align ? { textAlign: align } : null, weight ? { fontWeight: weight } : null, style]}
+      style={[base, sized, { color: ink && !isWeb ? CHROMA[ink === 'chroma' ? 'roze' : ink].stops[1] : color }, align ? { textAlign: align } : null, weight ? { fontWeight: weight } : null, style, rtl() ? JOINED : null]}
     >
-      {children}
+      {localize(children)}
     </Text>
   );
 }

@@ -7,6 +7,7 @@ import { Icon } from '../components/Icon';
 import { Screen } from '../components/Screen';
 import { useToast } from '../components/Toast';
 import { Button, Chip, DemoNote, Glass, Press, Row, Tag, Txt } from '../components/ui';
+import { tr } from '../i18n';
 import { useDemo } from '../state/demo';
 import { C, FONT, fx, R } from '../theme';
 
@@ -166,14 +167,14 @@ function Gift() {
       <TextInput
         value={to}
         onChangeText={setTo}
-        placeholder="Voor wie?"
+        placeholder={tr('Voor wie?')}
         placeholderTextColor={C.faint}
         style={{ height: 52, paddingHorizontal: 16, borderRadius: R.md, backgroundColor: 'rgba(16,28,72,0.06)', color: C.text, fontFamily: FONT.sans, fontSize: 15 }}
       />
       <TextInput
         value={message}
         onChangeText={setMessage}
-        placeholder="Je bericht"
+        placeholder={tr('Je bericht')}
         placeholderTextColor={C.faint}
         style={{ height: 52, paddingHorizontal: 16, borderRadius: R.md, backgroundColor: 'rgba(16,28,72,0.06)', color: C.text, fontFamily: FONT.sans, fontSize: 15 }}
       />
@@ -234,7 +235,7 @@ function Friends() {
           full
           onPress={async () => {
             try {
-              await Share.share({ message: `Boek bij İlker Tekin Hairstylist in Eindhoven met mijn code ${MEMBER.code}: € 10 korting op je eerste afspraak. (demo)` });
+              await Share.share({ message: tr(`Boek bij İlker Tekin Hairstylist in Eindhoven met mijn code ${MEMBER.code}: € 10 korting op je eerste afspraak. (demo)`) });
             } catch {
               // Sharing is not available here: the toast below still confirms.
             }

@@ -224,6 +224,20 @@ a {
   height: 100%;
   background: #ffffff;
 }
+.lang {
+  appearance: none;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.82) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%232741d6' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 12px center;
+  border-radius: 999px;
+  padding: 8px 30px 8px 14px;
+  font: 600 12.5px/1 var(--sans);
+  color: var(--text);
+  cursor: pointer;
+}
+[dir='rtl'] .lang {
+  background-position: left 12px center;
+  padding: 8px 14px 8px 30px;
+}
 .chip-demo {
   font: 500 10px/1 var(--mono);
   letter-spacing: 0.16em;
@@ -472,6 +486,13 @@ h3 {
 }
 .scene-labels * {
   pointer-events: none;
+}
+/* Labels are placed from the left edge whatever the reading direction; their own text still runs right to left. */
+[dir='rtl'] .scene-labels {
+  direction: ltr;
+}
+[dir='rtl'] .scene-labels > * {
+  direction: rtl;
 }
 .scene-labels .chair-tag,
 .scene-labels .chair-tag * {

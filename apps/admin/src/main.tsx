@@ -1,3 +1,5 @@
+import './i18n/install';
+
 import { createRoot } from 'react-dom/client';
 
 import { App } from './App';

@@ -1,29 +1,89 @@
-// Dates, times and prices, written out in Dutch instead of Intl so they look the same in every JS engine.
+// Dates, times and prices, written out per language instead of Intl so they look the same in every JS engine.
+import { getLocale } from './i18n';
+import type { Locale } from './locales';
 
-const WEEKDAYS_SHORT = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'];
-const WEEKDAYS_LONG = ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'];
-const MONTHS_SHORT = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
-const MONTHS_LONG = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+type Names = { wdShort: string[]; wdLong: string[]; monShort: string[]; monLong: string[] };
 
-export const weekdayShort = (date: Date) => WEEKDAYS_SHORT[date.getDay()];
-export const weekdayLong = (date: Date) => WEEKDAYS_LONG[date.getDay()];
-export const monthLong = (date: Date) => MONTHS_LONG[date.getMonth()];
-export const monthShort = (date: Date) => MONTHS_SHORT[date.getMonth()];
+const AR_DAYS = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+const AR_MONTHS = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+
+const NAMES: Record<Locale, Names> = {
+  nl: {
+    wdShort: ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za'],
+    wdLong: ['zondag', 'maandag', 'dinsdag', 'woensdag', 'donderdag', 'vrijdag', 'zaterdag'],
+    monShort: ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'],
+    monLong: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+  },
+  en: {
+    wdShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+    wdLong: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    monShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    monLong: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+  },
+  tr: {
+    wdShort: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'],
+    wdLong: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
+    monShort: ['Oca', 'Şub', 'Mar', 'Nis', 'May', 'Haz', 'Tem', 'Ağu', 'Eyl', 'Eki', 'Kas', 'Ara'],
+    monLong: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+  },
+  ar: { wdShort: AR_DAYS, wdLong: AR_DAYS, monShort: AR_MONTHS, monLong: AR_MONTHS },
+  fr: {
+    wdShort: ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'],
+    wdLong: ['dimanche', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'],
+    monShort: ['janv', 'févr', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'],
+    monLong: ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'],
+  },
+  de: {
+    wdShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+    wdLong: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'],
+    monShort: ['Jan', 'Feb', 'März', 'Apr', 'Mai', 'Juni', 'Juli', 'Aug', 'Sept', 'Okt', 'Nov', 'Dez'],
+    monLong: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+  },
+  it: {
+    wdShort: ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'],
+    wdLong: ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'],
+    monShort: ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'],
+    monLong: ['gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno', 'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre'],
+  },
+};
+
+const names = () => NAMES[getLocale()];
+
+/** A weekday, a day and a month in the order each language writes them. */
+function writeDay(weekday: string, day: number, month: string): string {
+  const locale = getLocale();
+  if (locale === 'tr') return `${day} ${month} ${weekday}`;
+  if (locale === 'de') return `${weekday}, ${day}. ${month}`;
+  return `${weekday} ${day} ${month}`;
+}
+
+const dayMonth = (day: number, month: string) => (getLocale() === 'de' ? `${day}. ${month}` : `${day} ${month}`);
+
+export const weekdayShort = (date: Date) => names().wdShort[date.getDay()];
+export const weekdayLong = (date: Date) => names().wdLong[date.getDay()];
+export const monthLong = (date: Date) => names().monLong[date.getMonth()];
+export const monthShort = (date: Date) => names().monShort[date.getMonth()];
 
 /** "wo 28 okt" */
-export const dayShort = (date: Date) => `${WEEKDAYS_SHORT[date.getDay()]} ${date.getDate()} ${MONTHS_SHORT[date.getMonth()]}`;
+export const dayShort = (date: Date) => writeDay(weekdayShort(date), date.getDate(), monthShort(date));
 
 /** "woensdag 28 oktober" */
-export const dayLong = (date: Date) => `${WEEKDAYS_LONG[date.getDay()]} ${date.getDate()} ${MONTHS_LONG[date.getMonth()]}`;
+export const dayLong = (date: Date) => writeDay(weekdayLong(date), date.getDate(), monthLong(date));
 
 /** "28 okt" */
-export const dateShort = (date: Date) => `${date.getDate()} ${MONTHS_SHORT[date.getMonth()]}`;
+export const dateShort = (date: Date) => dayMonth(date.getDate(), monthShort(date));
 
 /** "28 oktober 2026" */
-export const dateLong = (date: Date) => `${date.getDate()} ${MONTHS_LONG[date.getMonth()]} ${date.getFullYear()}`;
+export const dateLong = (date: Date) => `${dayMonth(date.getDate(), monthLong(date))} ${date.getFullYear()}`;
 
 /** "14:05" */
 export const clock = (date: Date) => `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+
+/** "1,5" in Dutch, "1.5" in English and Arabic: a number with `digits` decimals, as the language writes it. */
+export function decimal(value: number, digits = 1): string {
+  const text = value.toFixed(digits);
+  return getLocale() === 'en' || getLocale() === 'ar' ? text : text.replace('.', ',');
+}
 
 /** "€ 40", "€ 3,50": cents only when there are any. */
 export function euro(amount: number): string {

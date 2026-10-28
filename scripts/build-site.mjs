@@ -17,6 +17,9 @@ fs.rmSync('_site', { recursive: true, force: true });
 run('npx expo export --platform web --output-dir ../../_site/app', 'apps/app', { EXPO_BASE_URL: `${base}/app` });
 run(`npx vite build --base=${base}/admin/ --outDir ../../_site/admin --emptyOutDir`, 'apps/admin');
 fs.cpSync('site', '_site', { recursive: true });
+// The start page translates itself with the same dictionaries as the app and the panel.
+fs.mkdirSync('_site/i18n', { recursive: true });
+for (const file of fs.readdirSync('packages/shared/src/i18n')) if (file.endsWith('.json')) fs.copyFileSync(`packages/shared/src/i18n/${file}`, `_site/i18n/${file}`);
 // The start page plays the same clips as the app.
 fs.mkdirSync('_site/media', { recursive: true });
 for (const file of ['intro/intro-landscape.mp4', 'intro/poster-landscape.jpg', 'hero-hair.mp4', 'hero-hair.jpg', 'tryon-sample.jpg']) {

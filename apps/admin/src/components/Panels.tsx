@@ -261,7 +261,7 @@ export function Team({ appts, now, events }: { appts: Appt[]; now: Date; events:
               </div>
             </div>
             <div className="soft" style={{ fontSize: 13 }}>
-              {t.current ? `Nu: ${t.current.member ? 'Yara B.' : t.current.client.name.split(' ')[0]} · ${serviceById(t.current.service).short}` : t.working ? 'Nu vrij' : 'Werkt ' + t.stylist.days.map((d) => weekdayShort(new Date(2026, 9, 25 + d))).join(', ')}
+              {t.current ? `Nu: ${t.current.member ? 'Yara B.' : t.current.client.name.split(' ')[0]} · ${serviceById(t.current.service).short}` : t.working ? 'Nu vrij' : `Werkt ${t.stylist.days.map((d) => weekdayShort(new Date(2026, 9, 25 + d))).join(', ')}`}
               {t.working && t.free ? ` · inloop vanaf ${hhmm(t.free)}` : ''}
             </div>
             <div className="muted" style={{ fontSize: 12.5 }}>

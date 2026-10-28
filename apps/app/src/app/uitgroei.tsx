@@ -1,4 +1,4 @@
-import { addDays, CHROMA, dateLong, dayShort, firstSlot, minutesFor, clock as hhmm, serviceById, stylistById } from '@ilker/shared';
+import { addDays, CHROMA, dateLong, dayShort, decimal, firstSlot, clock as hhmm, minutesFor, serviceById, stylistById } from '@ilker/shared';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
@@ -30,7 +30,7 @@ export default function Regrowth() {
       <Glass style={{ gap: 18 }} pad={22} tint="honing">
         <Row style={{ alignItems: 'flex-end' }} gap={8}>
           <Txt v="hero" size={84} ink="honing">
-            {cm.toFixed(1).replace('.', ',')}
+            {decimal(cm)}
           </Txt>
           <Txt v="title" color={C.soft} style={{ marginBottom: 14 }}>
             cm
@@ -39,7 +39,7 @@ export default function Regrowth() {
         <Txt v="body" color={C.soft}>
           {doneToday
             ? 'Vandaag bijgewerkt: je kleur loopt weer gelijk vanaf de wortel.'
-            : `Sinds je ${serviceById(r.last?.service ?? 'uitgroei').short.toLowerCase()} op ${r.last ? dateLong(r.last.date) : ''} is je haar ongeveer ${cm.toFixed(1).replace('.', ',')} cm gegroeid.`}
+            : `Sinds je ${serviceById(r.last?.service ?? 'uitgroei').short.toLowerCase()} op ${r.last ? dateLong(r.last.date) : ''} is je haar ongeveer ${decimal(cm)} cm gegroeid.`}
         </Txt>
         <View style={{ gap: 6 }}>
           <View style={{ height: 70, borderRadius: R.md, overflow: 'hidden', flexDirection: 'row' }}>
@@ -49,7 +49,7 @@ export default function Regrowth() {
           <Row style={{ justifyContent: 'space-between' }}>
             {scale.map((s) => (
               <Txt key={s} v="num" size={11} color={C.muted}>
-                {s.toString().replace('.', ',')}
+                {decimal(s, Number.isInteger(s) ? 0 : 1)}
               </Txt>
             ))}
           </Row>

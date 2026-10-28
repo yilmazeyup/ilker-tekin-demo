@@ -63,7 +63,6 @@ function VisitHero() {
       />
       <View style={{ position: 'absolute', top: 18, left: 18, right: 18, flexDirection: 'row', justifyContent: 'space-between' }}>
         <Tag label={v.appt.start.toDateString() === v.now.toDateString() ? 'Vandaag' : 'Je volgende afspraak'} color="#140C10" bg={C.cream} />
-        <Tag label="AI-video" color={C.white} bg="rgba(6,11,34,0.55)" />
       </View>
       <View style={{ position: 'absolute', left: 20, right: 20, bottom: 20, gap: 12 }}>
         <Txt v="display" size={42} color={C.white}>

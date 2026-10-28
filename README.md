@@ -17,7 +17,7 @@ before the visit, a hair passport with the colour formula, a regrowth reminder, 
 (QR check-in, processing timer, "your stylist runs late"), a drink to your chair, the Club with gift cards and referrals,
 a shop with pick-up, aftercare with reminders, bridal and event packages, two chairs side by side, reviews with a photo,
 paying and tipping in the app, a frizz forecast from today's humidity in Eindhoven, stylist portfolios and an extensions
-planner. The opening is an AI clip of a hair toss made in Canva.
+planner. The opening is a clip of a hair toss made in Canva.
 
 **Salon screen:** the salon in 3D (five chairs with mirrors, two basins, the colour bar, the desk with the product wall,
 the waiting sofa) with a live card per chair: client, stylist, treatment, step and time left. Who waits, who is next and
@@ -32,7 +32,22 @@ The menu, prices and times (from the salon's "Book now" on Treatwell), the addre
 socials and the brands (L'Oréal Professionnel, Olaplex) are the salon's own (October 2026). İlker is shown only with
 what his site says ("Hairstylist & Academy"). The rest is demo: Selin, Noor, Daan, Lina and Kim, every client
 (including Yara), the Club, gift cards, shop prices and stock, the drinks menu. The hair pictures are 3D renders made
-in code; the intro clip and the try-on example are AI images, labelled as such. There are no made-up reviews.
+in code; the opening clip and the try-on example were made for this demo in Canva, not taken from the salon's work.
+There are no made-up reviews.
+
+## Languages
+
+Dutch is the salon's language and the default. The app, the salon screen and the start page also come in English,
+Türkçe, العربية (right to left), Français, Deutsch and Italiano: pick one under Ik → Taal in the app, in the header of
+the salon screen or the start page, or add `?lang=en|tr|ar|fr|de|it` to any address. The choice is remembered on the
+device for all three.
+
+The code writes its text in Dutch, as it is shown. `packages/shared/src/i18n/` has a dictionary per language from that
+Dutch to the translation, with `{placeholders}` where names, numbers or times go, and the text is looked up when it is
+shown: in `Txt` in the app, in a JSX wrapper in the salon screen (`apps/admin/src/i18n/`), and by the start page itself.
+After adding or changing text, `node scripts/i18n-extract.mjs` lists every Dutch text in `_i18n/source.json`, so new
+ones can get their translations; `?i18n-check` on the app or the salon screen collects the Dutch shown without a
+translation in `window.__ilkerMissing`.
 
 ## Structure
 

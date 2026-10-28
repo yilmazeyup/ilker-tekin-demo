@@ -1,14 +1,15 @@
 import {
   addDays,
   CHROMA,
+  type ChromaId,
+  decimal,
   DEMO_WEATHER,
   fetchWeather,
+  type Floor,
   frizzFrom,
   memberHistory,
   serviceById,
   startOfDay,
-  type ChromaId,
-  type Floor,
   type Weather,
 } from '@ilker/shared';
 import { useEffect, useState } from 'react';
@@ -117,7 +118,7 @@ export function RegrowthGauge({ now, onPress, done }: { now: Date; onPress?: () 
       </Txt>
       <View style={{ flexDirection: 'row', alignItems: 'flex-end', gap: 6 }}>
         <Txt v="display" size={36} ink="honing">
-          {done ? '0' : r.cm.toFixed(1).replace('.', ',')}
+          {done ? '0' : decimal(r.cm)}
         </Txt>
         <Txt v="h3" color={C.soft} style={{ marginBottom: 6 }}>
           cm

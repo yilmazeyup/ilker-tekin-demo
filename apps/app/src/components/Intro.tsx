@@ -51,11 +51,6 @@ export function Intro({ onDone }: { onDone: () => void }) {
             Hairstylist & Academy · Eindhoven
           </Txt>
         </View>
-        <View style={{ position: 'absolute', top: 54, right: 14, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, backgroundColor: 'rgba(6,11,34,0.55)' }}>
-          <Txt v="label" size={9} color={C.cream}>
-            AI-video
-          </Txt>
-        </View>
       </Pressable>
     </Animated.View>
   );

@@ -1,11 +1,12 @@
-import { CHROMA, clock as hhmm, dayShort, euro, MEMBER, relativeDay, serviceById, stylistById, tierFor } from '@ilker/shared';
+import { CHROMA, clock as hhmm, dayShort, euro, getLocale, LOCALE_NAMES, LOCALES, MEMBER, relativeDay, serviceById, stylistById, tierFor } from '@ilker/shared';
 import { router } from 'expo-router';
 import { View } from 'react-native';
 
 import { Icon, type IconName } from '../../components/Icon';
 import { Screen } from '../../components/Screen';
 import { useToast } from '../../components/Toast';
-import { Button, Glass, Press, Row, Tag, Txt } from '../../components/ui';
+import { Button, Chip, Glass, Press, Row, Tag, Txt } from '../../components/ui';
+import { chooseLocale } from '../../i18n';
 import { useDemo } from '../../state/demo';
 import { useVisit } from '../../state/live';
 import { C, fx, R } from '../../theme';
@@ -128,6 +129,17 @@ export default function Me() {
           ))}
         </View>
       ) : null}
+
+      <View style={{ gap: 10 }}>
+        <Txt v="label" color={C.muted}>
+          Taal
+        </Txt>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          {LOCALES.map((l) => (
+            <Chip key={l} label={LOCALE_NAMES[l]} on={l === getLocale()} onPress={() => chooseLocale(l)} />
+          ))}
+        </View>
+      </View>
 
       <Glass style={{ gap: 10 }}>
         <Txt v="h3">Over deze demo</Txt>
