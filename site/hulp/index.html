@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- A demo with fictional clients: keep it out of search results. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <title>İlker Tekin · Hulp</title>
+    <script>
+      // The language: ?lang= first, then the last choice on this device (the start page, the app and the panel read
+      // the same), else Dutch.
+      (function () {
+        var all = ['nl', 'en', 'tr', 'ar', 'fr', 'de', 'it'];
+        var lang = 'nl';
+        try {
+          var asked = new URLSearchParams(location.search).get('lang');
+          var saved = localStorage.getItem('ilker-lang');
+          lang = all.indexOf(asked) >= 0 ? asked : all.indexOf(saved) >= 0 ? saved : 'nl';
+        } catch (e) {}
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        window.LANG = lang;
+      })();
+    </script>
+    <link rel="icon" href="../app/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter+Tight:ital,wght@0,300..800;1,400..700&family=DM+Mono:wght@400;500&display=swap"
+    />
+    <style>
+      :root {
+        --text: #0e1630;
+        --soft: #3e4766;
+        --muted: #6d7593;
+        --line: rgba(16, 28, 72, 0.09);
+        --line-strong: rgba(16, 28, 72, 0.16);
+        --blue: #2741d6;
+        --blue-soft: #ebefff;
+        --chalk: #f4f6fc;
+        --serif: 'Bodoni Moda', Didot, Georgia, serif;
+        --sans: 'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+        --mono: 'DM Mono', ui-monospace, Menlo, monospace;
+      }
+      [dir='rtl'] {
+        --serif: 'Bodoni Moda', 'Noto Naskh Arabic', Georgia, serif;
+        --sans: 'Inter Tight', 'IBM Plex Sans Arabic', Arial, sans-serif;
+        --mono: 'DM Mono', 'IBM Plex Sans Arabic', monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        background: #fbfcff;
+        isolation: isolate;
+        color: var(--text);
+        font: 400 17px/1.55 var(--sans);
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: inherit;
+      }
+      /* Slow pastel light drifting over the white page, as on the start page and in the app. */
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        pointer-events: none;
+        z-index: -1;
+        will-change: transform;
+      }
+      body::before {
+        left: -25%;
+        top: -30%;
+        width: 125%;
+        height: 95%;
+        background:
+          radial-gradient(closest-side, rgba(196, 210, 255, 0.8), rgba(196, 210, 255, 0) 72%) 0% 0% / 55% 66% no-repeat,
+          radial-gradient(closest-side, rgba(232, 214, 255, 0.75), rgba(232, 214, 255, 0) 72%) 100% 22% / 50% 60% no-repeat;
+        animation: meshA 30s ease-in-out infinite alternate;
+      }
+      body::after {
+        left: -20%;
+        bottom: -35%;
+        width: 140%;
+        height: 88%;
+        background:
+          radial-gradient(closest-side, rgba(255, 224, 206, 0.7), rgba(255, 224, 206, 0) 72%) 0% 100% / 50% 62% no-repeat,
+          radial-gradient(closest-side, rgba(206, 240, 228, 0.65), rgba(206, 240, 228, 0) 72%) 100% 80% / 48% 58% no-repeat;
+        animation: meshB 36s ease-in-out infinite alternate;
+      }
+      @keyframes meshA {
+        0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+        50% { transform: translate3d(8%, 6%, 0) rotate(8deg) scale(1.08); }
+        100% { transform: translate3d(14%, -4%, 0) rotate(-6deg) scale(1.02); }
+      }
+      @keyframes meshB {
+        0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+        50% { transform: translate3d(-10%, -6%, 0) rotate(-7deg) scale(1.1); }
+        100% { transform: translate3d(6%, -10%, 0) rotate(5deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body::before,
+        body::after {
+          animation: none;
+        }
+      }
+
+      .wrap {
+        max-width: 1220px;
+        margin: 0 auto;
+        padding: 0 24px 40px;
+      }
+      /* The blue ink of the app: a gradient through the letters; the padding lets it reach the dot of the İ. */
+      .ink {
+        background: linear-gradient(100deg, #2741d6 0%, #4c5fe8 45%, #7a5ae0 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        padding: 0.2em 0.04em 0.06em 0;
+      }
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font: 500 11px/1.4 var(--mono);
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--blue);
+      }
+      .kicker::before {
+        content: '';
+        width: 8px;
+        height: 8px;
+        border-radius: 3px;
+        background: var(--blue);
+      }
+      [dir='rtl'] .kicker,
+      [dir='rtl'] .logo small {
+        letter-spacing: 0;
+      }
+      .glass {
+        border-radius: 26px;
+        border: 1px solid var(--line);
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.96), rgba(250, 251, 255, 0.86));
+        box-shadow: 0 1px 2px rgba(16, 28, 72, 0.04), 0 24px 50px -30px rgba(30, 50, 130, 0.35);
+      }
+
+      header.bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 22px 0;
+      }
+      .logo {
+        display: inline-flex;
+        align-items: baseline;
+        font: italic 500 30px/1.2 var(--serif);
+        letter-spacing: -0.03em;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .logo small {
+        font: 500 10px/1 var(--mono);
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-inline-start: 10px;
+        font-style: normal;
+      }
+      header.bar .right {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      select.lang {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%232741d6' stroke-width='1.6'/%3E%3C/svg%3E") no-repeat right 12px center;
+        border-radius: 999px;
+        padding: 9px 30px 9px 14px;
+        font: 600 13px/1 var(--sans);
+        color: var(--text);
+        cursor: pointer;
+      }
+      [dir='rtl'] select.lang {
+        background-position: left 12px center;
+        padding: 9px 14px 9px 30px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        height: 52px;
+        padding: 0 24px;
+        border-radius: 999px;
+        font-weight: 650;
+        text-decoration: none;
+        border: 1px solid var(--line-strong);
+        background: #fff;
+        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.25, 1.2), box-shadow 0.3s;
+      }
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px -16px rgba(30, 50, 130, 0.45);
+      }
+      .btn.primary {
+        border: 0;
+        background: var(--blue);
+        color: #fff;
+      }
+      .btn.small {
+        height: 38px;
+        padding: 0 16px;
+        font-size: 14px;
+      }
+
+      .intro {
+        padding: 26px 0 34px;
+      }
+      h1,
+      h2 {
+        margin: 0;
+        font-weight: 500;
+      }
+      h1 {
+        margin-top: 14px;
+        font: italic 500 clamp(44px, 7vw, 88px) / 1.02 var(--serif);
+        letter-spacing: -0.035em;
+      }
+      .lead {
+        margin: 20px 0 0;
+        max-width: 660px;
+        font-size: 20px;
+        color: var(--soft);
+      }
+
+      .player {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 340px;
+        gap: 24px;
+        align-items: start;
+      }
+      .video {
+        overflow: hidden;
+        padding: 0;
+        border-radius: 26px;
+        box-shadow: 0 50px 90px -46px rgba(30, 50, 130, 0.55), 0 0 0 1px var(--line);
+        background: #fff;
+      }
+      .video video {
+        display: block;
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        background: #fbfcff;
+      }
+      .chapters {
+        padding: 22px 14px 16px;
+      }
+      .chapters h2 {
+        margin: 0 8px 12px;
+        font: italic 500 30px/1.1 var(--serif);
+        letter-spacing: -0.03em;
+      }
+      .chapters ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .chapters button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        padding: 9px 8px;
+        border: 0;
+        border-radius: 14px;
+        background: transparent;
+        font: 500 15.5px/1.3 var(--sans);
+        color: var(--text);
+        text-align: start;
+        cursor: pointer;
+      }
+      .chapters button:hover {
+        background: var(--chalk);
+      }
+      .chapters button[aria-current='true'] {
+        background: var(--blue-soft);
+      }
+      .chapters time {
+        flex: none;
+        min-width: 50px;
+        padding: 6px 0 5px;
+        border-radius: 999px;
+        background: var(--chalk);
+        font: 500 12px/1 var(--mono);
+        text-align: center;
+        direction: ltr;
+      }
+      .chapters button[aria-current='true'] time {
+        background: var(--blue);
+        color: #fff;
+      }
+      .note {
+        margin: 12px 8px 0;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .faq {
+        padding-top: 70px;
+      }
+      .faq h2 {
+        margin: 10px 0 22px;
+        font: italic 500 clamp(34px, 4.6vw, 56px) / 1.02 var(--serif);
+        letter-spacing: -0.03em;
+      }
+      .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        align-items: start;
+      }
+      details {
+        border-radius: 22px;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.9);
+      }
+      details[open] {
+        border-color: rgba(39, 65, 214, 0.28);
+        background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(235, 239, 255, 0.7));
+      }
+      summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 18px 22px;
+        font-weight: 650;
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+      }
+      summary::-webkit-details-marker {
+        display: none;
+      }
+      summary::after {
+        content: '+';
+        flex: none;
+        color: var(--blue);
+        font-weight: 600;
+      }
+      details[open] summary::after {
+        content: '–';
+      }
+      details p {
+        margin: 0;
+        padding: 0 22px 20px;
+        color: var(--soft);
+      }
+
+      .cta {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding-top: 46px;
+      }
+      footer {
+        padding: 50px 0 30px;
+        color: var(--muted);
+        font-size: 14px;
+        text-align: center;
+      }
+
+      @media (max-width: 980px) {
+        .player {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 680px) {
+        .faq-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .wrap {
+          padding: 0 16px 32px;
+        }
+        header.bar {
+          padding: 16px 0;
+        }
+        .logo {
+          font-size: 25px;
+        }
+        .logo small {
+          display: none;
+        }
+        #back {
+          display: none;
+        }
+        .intro {
+          padding: 14px 0 24px;
+        }
+        .lead {
+          font-size: 17px;
+        }
+        .video {
+          border-radius: 18px;
+        }
+        .faq {
+          padding-top: 50px;
+        }
+        .cta .btn {
+          flex: 1 1 100%;
+          justify-content: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="bar">
+        <a class="logo" id="home" href="../" aria-label="İlker Tekin"><span class="ink">İlker Tekin</span><small data-t="eyebrow"></small></a>
+        <div class="right">
+          <select class="lang" id="lang" aria-label="Taal" translate="no">
+            <option value="nl">Nederlands</option>
+            <option value="en">English</option>
+            <option value="tr">Türkçe</option>
+            <option value="ar">العربية</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+          </select>
+          <a class="btn small" id="back" href="../" data-t="back"></a>
+        </div>
+      </header>
+
+      <section class="intro">
+        <div class="kicker" data-t="kicker"></div>
+        <h1 data-t="title"></h1>
+        <p class="lead" data-t="lead"></p>
+      </section>
+
+      <section class="player">
+        <div class="video glass">
+          <!-- Spoken in Dutch; the subtitles follow the page's language. -->
+          <video id="video" controls preload="metadata" playsinline poster="poster.jpg">
+            <source src="ilker-uitleg.mp4" type="video/mp4" />
+            <track kind="subtitles" srclang="nl" label="Nederlands" src="ilker-uitleg.nl.vtt" />
+            <track kind="subtitles" srclang="en" label="English" src="ilker-uitleg.en.vtt" />
+            <track kind="subtitles" srclang="tr" label="Türkçe" src="ilker-uitleg.tr.vtt" />
+            <track kind="subtitles" srclang="ar" label="العربية" src="ilker-uitleg.ar.vtt" />
+            <track kind="subtitles" srclang="fr" label="Français" src="ilker-uitleg.fr.vtt" />
+            <track kind="subtitles" srclang="de" label="Deutsch" src="ilker-uitleg.de.vtt" />
+            <track kind="subtitles" srclang="it" label="Italiano" src="ilker-uitleg.it.vtt" />
+          </video>
+        </div>
+        <aside class="chapters glass">
+          <h2 data-t="chaptersTitle"></h2>
+          <ol id="chapters"></ol>
+          <p class="note" data-t="videoNote"></p>
+        </aside>
+      </section>
+
+      <section class="faq">
+        <div class="kicker" data-t="faqKicker"></div>
+        <h2 data-t="faqTitle"></h2>
+        <div class="faq-grid" id="faq"></div>
+      </section>
+
+      <div class="cta">
+        <a class="btn primary" id="open" href="../app/" data-t="open"></a>
+        <a class="btn" id="admin" href="../admin/" data-t="admin"></a>
+      </div>
+      <footer data-t="footer"></footer>
+    </div>
+
+    <script>
+      const TEXT = {
+        nl: {
+          lang: 'Taal',
+          back: 'Terug naar de demo',
+          eyebrow: 'Hulp',
+          kicker: 'Hulp · uitlegvideo',
+          title: 'Zo werkt <span class="ink">İlker Tekin</span>',
+          lead: 'Bekijk de video van drie minuten, of zoek je vraag hieronder op. Alles in de demo is fictief: er wordt niets echt geboekt of betaald.',
+          videoNote: 'Gesproken in het Nederlands, met ondertiteling in zeven talen.',
+          chaptersTitle: 'Hoofdstukken',
+          chapters: {
+            welcome: 'Welkom',
+            app: 'De app',
+            book: 'Book now, looks en kleur passen',
+            club: 'Club, haarpaspoort en frizz',
+            panel: 'Het salonscherm in 3D',
+            link: 'App en scherm samen',
+            play: 'Speel de dag af',
+          },
+          faqKicker: 'Vragen',
+          faqTitle: 'Veelgestelde vragen',
+          faq: [
+            ['Hoe boek ik een afspraak?', 'Tik op Book now en kies een behandeling en je haarlengte, dan een stylist (of geen voorkeur), een dag en een tijd. Je krijgt een bevestiging met een QR-code om in te checken. In de demo wordt niets echt geboekt.'],
+            ['Wat kost het?', 'De prijzen zijn die van de salon en gaan per haarlengte, van €\u00a010 voor een pony tot €\u00a0280. Uitgroei kleuren kost €\u00a050; een balayage €\u00a0195 (kort), €\u00a0215 (halflang) of €\u00a0250 (lang). Bij knippen en kleuren is föhnen inbegrepen.'],
+            ['Waar is de salon, en wanneer is hij open?', 'Aan de Poeijersstraat 37, 5642 GA Eindhoven, bij bushalte Hercules Segherslaan. Open van dinsdag tot en met zaterdag, van 09:00 tot 18:00; op zondag en maandag gesloten.'],
+            ['Kan ik zonder afspraak langskomen?', 'Ja. Onder Nu in de salon zie je hoe druk het is, hoe lang je wacht en wanneer de eerste stoel vrij is. Met Zet me in de inloopwachtrij sta je in de rij, en de salon ziet je meteen op het scherm.'],
+            ['Hoe werkt kleur passen?', 'In de pasruimte zoekt de AI (Google MediaPipe) het haar op een foto en kleurt het, bijvoorbeeld in Copper Glow, Honey Babylights of Ice Blonde, helemaal of als balayage, babylights of ombre. Dat gebeurt in je browser: je foto verlaat je telefoon niet. De voorbeeldfoto is een AI-beeld.'],
+            ['Hoe werkt de Club?', 'Je spaart een punt per euro en klimt van Glow via Gloss en Lustre naar Icon. Je punten wissel je in, bijvoorbeeld voor pony knippen (150 punten) of €\u00a025 korting (600 punten). Er zijn ook cadeaukaarten, en je kunt een vriendin uitnodigen. De Club is een idee voor de demo.'],
+            ['Wat is het haarpaspoort?', 'Al je bezoeken op een rij, met de kleurformule, de producten in de stoel en wat je mee naar huis nam. Elke stylist ziet dezelfde formule, zodat je kleur altijd hetzelfde wordt.'],
+            ['Wat ziet het team op het salonscherm?', 'De salon in 3D: vijf stoelen met spiegels, twee wasbakken, de kleurbar, de balie en de wachtbank, met boven elke stoel de klant, de behandeling en hoe lang de kleur nog inwerkt. Verder de agenda, de klanten met hun kleurformule, en het team, de verkoop en de shop als kamers in 3D, of plat in 2D. Speel de dag af laat de hele dag in een minuut zien.'],
+            ['Hoe komt wat ik in de app doe op het scherm?', 'De app en het salonscherm staan op dezelfde site en delen de opslag van je browser. Zet je je in de inloopwachtrij, bestel je een drankje of in de shop, stuur je consult-foto’s of reken je af, dan staat het meteen op het scherm. Open ze naast elkaar in dezelfde browser om het te zien. Er gaat niets naar een server.'],
+            ['Is dit echt?', 'Nee, dit is een demo. Het menu, de prijzen en tijden, het adres, de openingstijden en de merken (L’Oréal Professionnel en Olaplex) zijn van de salon, en İlker staat erin als Hairstylist & Academy. Selin, Noor, Daan, Lina en Kim, alle klanten, de Club, de shopprijzen en de drankenkaart zijn verzonnen. De openingsvideo en de voorbeeldfoto zijn AI-beelden, de looks zijn 3D-renders. Er wordt niets echt geboekt of betaald.'],
+          ],
+          open: 'Open de app',
+          admin: 'Open het salonscherm',
+          footer: 'Demo voor İlker Tekin Hairstylist &amp; Academy, Poeijersstraat 37, 5642 GA Eindhoven. Niet de echte app van de salon.',
+        },
+        en: {
+          lang: 'Language',
+          back: 'Back to the demo',
+          eyebrow: 'Help',
+          kicker: 'Help · explainer video',
+          title: 'How <span class="ink">İlker Tekin</span> works',
+          lead: 'Watch the three-minute video, or find your question below. Everything in the demo is fictional: nothing is really booked or paid.',
+          videoNote: 'Spoken in Dutch, with subtitles in seven languages.',
+          chaptersTitle: 'Chapters',
+          chapters: {
+            welcome: 'Welcome',
+            app: 'The app',
+            book: 'Book now, looks and trying on colour',
+            club: 'Club, hair passport and frizz',
+            panel: 'The salon screen in 3D',
+            link: 'App and screen together',
+            play: 'Play the day',
+          },
+          faqKicker: 'Questions',
+          faqTitle: 'Frequently asked questions',
+          faq: [
+            ['How do I book an appointment?', 'Tap Book now and choose a treatment and your hair length, then a stylist (or no preference), a day and a time. You get a confirmation with a QR code to check in. In the demo nothing is really booked.'],
+            ['What does it cost?', 'The prices are the salon’s own and depend on your hair length, from €\u00a010 for a fringe trim to €\u00a0280. Colouring the regrowth costs €\u00a050; a balayage €\u00a0195 (short), €\u00a0215 (medium) or €\u00a0250 (long). Blow-drying is included with cuts and colours.'],
+            ['Where is the salon, and when is it open?', 'At Poeijersstraat 37, 5642 GA Eindhoven, by the Hercules Segherslaan bus stop. Open Tuesday to Saturday, 09:00 to 18:00; closed on Sunday and Monday.'],
+            ['Can I walk in without an appointment?', 'Yes. Under Nu in de salon (the salon right now) you see how busy it is, how long you would wait and when the first chair is free. With Zet me in de inloopwachtrij you join the walk-in queue, and the salon sees you on its screen at once.'],
+            ['How does trying on a colour work?', 'In the fitting room the AI (Google MediaPipe) finds the hair in a photo and colours it, for example in Copper Glow, Honey Babylights or Ice Blonde, all over or as balayage, babylights or ombre. It runs in your browser: your photo never leaves your phone. The sample photo is an AI image.'],
+            ['How does the Club work?', 'You earn a point per euro and move up from Glow through Gloss and Lustre to Icon. You trade your points, for example for a fringe trim (150 points) or €\u00a025 off (600 points). There are gift cards too, and you can invite a friend. The Club is an idea for the demo.'],
+            ['What is the hair passport?', 'All your visits in a row, with the colour formula, the products used in the chair and what you took home. Every stylist sees the same formula, so your colour always comes out the same.'],
+            ['What does the team see on the salon screen?', 'The salon in 3D: five chairs with mirrors, two basins, the colour bar, the desk and the waiting sofa, with the client, the treatment and the colour’s remaining processing time above each chair. Also the agenda, the clients with their colour formulas, and the team, the sales and the shop as rooms in 3D, or flat in 2D. Speel de dag af plays the whole day in a minute.'],
+            ['How does what I do in the app reach the screen?', 'The app and the salon screen are on the same site and share your browser’s storage. Join the walk-in queue, order a drink or from the shop, send consult photos or pay, and it shows on the screen at once. Open both side by side in the same browser to see it. Nothing is sent to a server.'],
+            ['Is this real?', 'No, this is a demo. The menu, prices and times, the address, the opening hours and the brands (L’Oréal Professionnel and Olaplex) are the salon’s, and İlker appears as Hairstylist & Academy. Selin, Noor, Daan, Lina and Kim, all clients, the Club, the shop prices and the drinks menu are made up. The opening video and the sample photo are AI images; the looks are 3D renders. Nothing is really booked or paid.'],
+          ],
+          open: 'Open the app',
+          admin: 'Open the salon screen',
+          footer: 'Demo for İlker Tekin Hairstylist &amp; Academy, Poeijersstraat 37, 5642 GA Eindhoven. Not the salon’s real app.',
+        },
+        tr: {
+          lang: 'Dil',
+          back: 'Demoya dön',
+          eyebrow: 'Yardım',
+          kicker: 'Yardım · tanıtım videosu',
+          title: '<span class="ink">İlker Tekin</span> nasıl çalışır',
+          lead: 'Üç dakikalık videoyu izle ya da sorunu aşağıda bul. Demodaki her şey hayalidir: gerçekte hiçbir şey rezerve edilmez ya da ödenmez.',
+          videoNote: 'Hollandaca seslendirme, yedi dilde altyazı.',
+          chaptersTitle: 'Bölümler',
+          chapters: {
+            welcome: 'Hoş geldin',
+            app: 'Uygulama',
+            book: 'Book now, looks ve renk deneme',
+            club: 'Club, saç pasaportu ve frizz',
+            panel: '3D salon ekranı',
+            link: 'Uygulama ve ekran birlikte',
+            play: 'Günü oynat',
+          },
+          faqKicker: 'Sorular',
+          faqTitle: 'Sık sorulan sorular',
+          faq: [
+            ['Nasıl randevu alırım?', 'Book now’a dokun; bir işlem ve saç uzunluğunu, sonra bir kuaför (ya da fark etmez), bir gün ve bir saat seç. Giriş için QR kodlu bir onay alırsın. Demoda gerçekte hiçbir şey rezerve edilmez.'],
+            ['Fiyatlar ne kadar?', 'Fiyatlar salonun kendi fiyatlarıdır ve saç uzunluğuna göre değişir: kâkül kesimi için €\u00a010’dan €\u00a0280’e kadar. Dip boya €\u00a050; balayaj €\u00a0195 (kısa), €\u00a0215 (orta) ya da €\u00a0250 (uzun). Kesim ve boyada fön dahildir.'],
+            ['Salon nerede ve ne zaman açık?', 'Poeijersstraat 37, 5642 GA Eindhoven’da, Hercules Segherslaan otobüs durağının yanında. Salıdan cumartesiye 09:00–18:00 arası açık; pazar ve pazartesi kapalı.'],
+            ['Randevusuz gidebilir miyim?', 'Evet. Nu in de salon (şu an salonda) bölümünde ne kadar yoğun olduğunu, ne kadar bekleyeceğini ve ilk boş koltuğu görürsün. Zet me in de inloopwachtrij ile sıraya girersin; salon seni hemen ekranında görür.'],
+            ['Renk deneme nasıl çalışır?', 'Deneme odasında yapay zekâ (Google MediaPipe) fotoğraftaki saçı bulur ve boyar; örneğin Copper Glow, Honey Babylights ya da Ice Blonde ile, tamamen ya da balayaj, babylights veya ombre olarak. Bu tarayıcında olur: fotoğrafın telefonundan çıkmaz. Örnek fotoğraf bir yapay zekâ görselidir.'],
+            ['Club nasıl çalışır?', 'Her euro için bir puan kazanır, Glow’dan Gloss ve Lustre üzerinden Icon’a yükselirsin. Puanlarını örneğin kâkül kesimi (150 puan) ya da €\u00a025 indirim (600 puan) ile takas edersin. Hediye kartları da var, bir arkadaşını da davet edebilirsin. Club demo için bir fikirdir.'],
+            ['Saç pasaportu nedir?', 'Tüm ziyaretlerin sırayla: renk formülü, koltukta kullanılan ürünler ve eve götürdüklerin. Her kuaför aynı formülü görür, böylece rengin hep aynı çıkar.'],
+            ['Ekip salon ekranında ne görür?', 'Salonu 3D olarak: aynalı beş koltuk, iki lavabo, boya barı, resepsiyon ve bekleme koltuğu; her koltuğun üstünde müşteri, işlem ve boyanın kalan süresi. Ayrıca ajanda, renk formülleriyle müşteriler ve 3D odalar olarak ekip, satışlar ve mağaza; ya da düz, 2D. Speel de dag af bütün günü bir dakikada oynatır.'],
+            ['Uygulamada yaptıklarım ekrana nasıl gelir?', 'Uygulama ve salon ekranı aynı sitededir ve tarayıcının depolamasını paylaşır. Randevusuz sıraya girersen, içecek ya da mağazadan sipariş verirsen, konsültasyon fotoğrafları gönderirsen veya ödeme yaparsan, hemen ekranda görünür. Görmek için ikisini aynı tarayıcıda yan yana aç. Hiçbir şey bir sunucuya gönderilmez.'],
+            ['Bu gerçek mi?', 'Hayır, bu bir demo. Menü, fiyatlar ve süreler, adres, çalışma saatleri ve markalar (L’Oréal Professionnel ve Olaplex) salona aittir; İlker de Hairstylist & Academy olarak yer alır. Selin, Noor, Daan, Lina ve Kim, tüm müşteriler, Club, mağaza fiyatları ve içecek menüsü hayalidir. Açılış videosu ve örnek fotoğraf yapay zekâ görselleri, looks ise 3D çizimlerdir. Gerçekte hiçbir şey rezerve edilmez ya da ödenmez.'],
+          ],
+          open: 'Uygulamayı aç',
+          admin: 'Salon ekranını aç',
+          footer: 'İlker Tekin Hairstylist &amp; Academy için demo, Poeijersstraat 37, 5642 GA Eindhoven. Salonun gerçek uygulaması değildir.',
+        },
+        ar: {
+          lang: 'اللغة',
+          back: 'العودة إلى العرض التجريبي',
+          eyebrow: 'مساعدة',
+          kicker: 'مساعدة · فيديو توضيحي',
+          title: 'هكذا يعمل <span class="ink">İlker Tekin</span>',
+          lead: 'شاهدوا الفيديو ومدته ثلاث دقائق، أو ابحثوا عن سؤالكم في الأسفل. كل ما في العرض التجريبي خيالي: لا يُحجز أو يُدفع أي شيء فعلًا.',
+          videoNote: 'بصوت هولندي، مع ترجمة بسبع لغات.',
+          chaptersTitle: 'الفصول',
+          chapters: {
+            welcome: 'مرحبًا',
+            app: 'التطبيق',
+            book: 'الحجز والتسريحات وتجربة اللون',
+            club: 'النادي وجواز الشعر والتجعّد',
+            panel: 'شاشة الصالون ثلاثية الأبعاد',
+            link: 'التطبيق والشاشة معًا',
+            play: 'تشغيل اليوم',
+          },
+          faqKicker: 'أسئلة',
+          faqTitle: 'الأسئلة الشائعة',
+          faq: [
+            ['كيف أحجز موعدًا؟', 'اضغطوا على Book now واختاروا الخدمة وطول الشعر، ثم المصفف (أو بلا تفضيل)، واليوم والوقت. يصلكم تأكيد مع رمز QR لتسجيل الوصول. في العرض التجريبي لا يُحجز أي شيء فعلًا.'],
+            ['كم تبلغ الأسعار؟', 'الأسعار هي أسعار الصالون نفسها وتختلف حسب طول الشعر، من 10\u00a0€ لقص الغرة حتى 280\u00a0€. صبغ الجذور 50\u00a0€، والبالياج 195\u00a0€ (قصير) أو 215\u00a0€ (متوسط) أو 250\u00a0€ (طويل). التجفيف بالسشوار مشمول مع القص والصبغ.'],
+            ['أين يقع الصالون، ومتى يفتح؟', 'في \u2066Poeijersstraat 37, 5642 GA\u2069 أيندهوفن، قرب محطة الحافلات Hercules Segherslaan. يفتح من الثلاثاء إلى السبت من 09:00 حتى 18:00، ويغلق يومي الأحد والاثنين.'],
+            ['هل يمكنني الحضور دون موعد؟', 'نعم. في Nu in de salon (الصالون الآن) ترون مدى الازدحام، وكم ستنتظرون، ومتى يفرغ أول كرسي. ومع Zet me in de inloopwachtrij تنضمون إلى الطابور، فيراكم الصالون فورًا على شاشته.'],
+            ['كيف تعمل تجربة اللون؟', 'في غرفة التجربة يجد الذكاء الاصطناعي (Google MediaPipe) الشعر في الصورة ويلوّنه، مثلًا بـ Copper Glow أو Honey Babylights أو Ice Blonde، للشعر كله أو بالبالياج أو البيبي لايتس أو الأومبريه. يحدث ذلك في متصفحكم: لا تغادر صورتكم الهاتف. الصورة النموذجية مصنوعة بالذكاء الاصطناعي.'],
+            ['كيف يعمل الـ Club؟', 'تكسبون نقطة عن كل يورو وتتدرجون من Glow إلى Gloss ثم Lustre ثم Icon. وتستبدلون نقاطكم، مثلًا بقص الغرة (150 نقطة) أو بخصم 25\u00a0€ (600 نقطة). وهناك أيضًا بطاقات هدايا، ويمكنكم دعوة صديقة. الـ Club فكرة للعرض التجريبي.'],
+            ['ما هو جواز الشعر؟', 'كل زياراتكم بالترتيب، مع تركيبة اللون والمنتجات المستخدمة على الكرسي وما أخذتموه إلى البيت. يرى كل مصفف التركيبة نفسها، فيبقى لونكم دائمًا كما هو.'],
+            ['ماذا يرى الفريق على شاشة الصالون؟', 'الصالون بتقنية ثلاثية الأبعاد: خمسة كراسٍ بمرايا، ومغسلتان، وركن الألوان، والاستقبال، وأريكة الانتظار، وفوق كل كرسي العميلة والخدمة والوقت المتبقي لتفاعل اللون. وأيضًا جدول المواعيد، والعملاء مع تركيبات ألوانهم، والفريق والمبيعات والمتجر كغرف ثلاثية الأبعاد، أو مسطحة بالأبعاد الثنائية. ويعرض Speel de dag af اليوم كله في دقيقة.'],
+            ['كيف يصل ما أفعله في التطبيق إلى الشاشة؟', 'التطبيق وشاشة الصالون على الموقع نفسه ويتشاركان تخزين متصفحكم. انضموا إلى الطابور، أو اطلبوا مشروبًا أو من المتجر، أو أرسلوا صور الاستشارة، أو ادفعوا، فيظهر ذلك فورًا على الشاشة. افتحوهما جنبًا إلى جنب في المتصفح نفسه لتروا ذلك. لا يُرسل أي شيء إلى خادم.'],
+            ['هل هذا حقيقي؟', 'لا، هذا عرض تجريبي. القائمة والأسعار والمدد والعنوان ومواعيد العمل والعلامات التجارية (L’Oréal Professionnel وOlaplex) خاصة بالصالون، ويظهر İlker بصفته Hairstylist & Academy. أما Selin وNoor وDaan وLina وKim، وجميع العملاء، والـ Club، وأسعار المتجر، وقائمة المشروبات، فكلها من نسج الخيال. فيديو الافتتاح والصورة النموذجية مصنوعان بالذكاء الاصطناعي، والتسريحات (Looks) نماذج ثلاثية الأبعاد. لا يُحجز أو يُدفع أي شيء فعلًا.'],
+          ],
+          open: 'افتحوا التطبيق',
+          admin: 'افتحوا شاشة الصالون',
+          footer: 'عرض تجريبي لصالون İlker Tekin Hairstylist &amp; Academy، \u2066Poeijersstraat 37, 5642 GA\u2069 أيندهوفن. ليس التطبيق الحقيقي للصالون.',
+        },
+        fr: {
+          lang: 'Langue',
+          back: 'Retour à la démo',
+          eyebrow: 'Aide',
+          kicker: 'Aide · vidéo explicative',
+          title: 'Comment fonctionne <span class="ink">İlker Tekin</span>',
+          lead: 'Regardez la vidéo de trois minutes, ou trouvez votre question ci-dessous. Tout dans la démo est fictif : rien n’est vraiment réservé ni payé.',
+          videoNote: 'En néerlandais, avec des sous-titres en sept langues.',
+          chaptersTitle: 'Chapitres',
+          chapters: {
+            welcome: 'Bienvenue',
+            app: 'L’app',
+            book: 'Book now, looks et essai de couleur',
+            club: 'Club, passeport capillaire et frisottis',
+            panel: 'L’écran du salon en 3D',
+            link: 'L’app et l’écran ensemble',
+            play: 'Rejouer la journée',
+          },
+          faqKicker: 'Questions',
+          faqTitle: 'Questions fréquentes',
+          faq: [
+            ['Comment prendre rendez-vous ?', 'Touchez Book now et choisissez une prestation et votre longueur de cheveux, puis un ou une styliste (ou sans préférence), un jour et une heure. Vous recevez une confirmation avec un code QR pour vous enregistrer. Dans la démo, rien n’est vraiment réservé.'],
+            ['Combien ça coûte ?', 'Les prix sont ceux du salon et dépendent de la longueur de vos cheveux, de 10\u00a0€ pour une frange à 280\u00a0€. La couleur des racines coûte 50\u00a0€ ; un balayage 195\u00a0€ (courts), 215\u00a0€ (mi-longs) ou 250\u00a0€ (longs). Le brushing est compris avec la coupe et la couleur.'],
+            ['Où se trouve le salon, et quand est-il ouvert ?', 'Poeijersstraat 37, 5642 GA Eindhoven, près de l’arrêt de bus Hercules Segherslaan. Ouvert du mardi au samedi, de 09:00 à 18:00 ; fermé le dimanche et le lundi.'],
+            ['Puis-je venir sans rendez-vous ?', 'Oui. Sous Nu in de salon (au salon maintenant), vous voyez l’affluence, l’attente et l’heure du premier fauteuil libre. Avec Zet me in de inloopwachtrij, vous rejoignez la file, et le salon vous voit aussitôt sur son écran.'],
+            ['Comment fonctionne l’essai de couleur ?', 'Dans la cabine d’essayage, l’IA (Google MediaPipe) trouve les cheveux sur une photo et les colore, par exemple en Copper Glow, Honey Babylights ou Ice Blonde, en entier ou en balayage, babylights ou ombré. Tout se passe dans votre navigateur : votre photo ne quitte pas votre téléphone. La photo d’exemple est une image IA.'],
+            ['Comment fonctionne le Club ?', 'Vous gagnez un point par euro et passez de Glow à Gloss, Lustre puis Icon. Vous échangez vos points, par exemple contre une coupe de frange (150 points) ou 25\u00a0€ de réduction (600 points). Il y a aussi des cartes cadeaux, et vous pouvez inviter une amie. Le Club est une idée pour la démo.'],
+            ['Qu’est-ce que le passeport capillaire ?', 'Toutes vos visites, avec la formule de couleur, les produits utilisés au fauteuil et ce que vous avez rapporté chez vous. Chaque styliste voit la même formule, pour que votre couleur soit toujours la même.'],
+            ['Que voit l’équipe sur l’écran du salon ?', 'Le salon en 3D : cinq fauteuils avec miroirs, deux bacs, le bar à couleurs, l’accueil et le canapé d’attente, avec au-dessus de chaque fauteuil la cliente, la prestation et le temps de pose restant. Aussi l’agenda, les clients avec leur formule de couleur, et l’équipe, les ventes et la boutique en salles 3D, ou à plat en 2D. Speel de dag af rejoue toute la journée en une minute.'],
+            ['Comment ce que je fais dans l’app arrive-t-il à l’écran ?', 'L’app et l’écran du salon sont sur le même site et partagent le stockage de votre navigateur. Rejoignez la file, commandez une boisson ou à la boutique, envoyez des photos de consultation ou payez : cela apparaît aussitôt à l’écran. Ouvrez les deux côte à côte dans le même navigateur pour le voir. Rien n’est envoyé à un serveur.'],
+            ['Est-ce réel ?', 'Non, c’est une démo. La carte, les prix et les durées, l’adresse, les horaires et les marques (L’Oréal Professionnel et Olaplex) sont ceux du salon, et İlker y figure comme Hairstylist & Academy. Selin, Noor, Daan, Lina et Kim, tous les clients, le Club, les prix de la boutique et la carte des boissons sont inventés. La vidéo d’ouverture et la photo d’exemple sont des images IA, les looks des rendus 3D. Rien n’est vraiment réservé ni payé.'],
+          ],
+          open: 'Ouvrir l’app',
+          admin: 'Ouvrir l’écran du salon',
+          footer: 'Démo pour İlker Tekin Hairstylist &amp; Academy, Poeijersstraat 37, 5642 GA Eindhoven. Pas la vraie app du salon.',
+        },
+        de: {
+          lang: 'Sprache',
+          back: 'Zurück zur Demo',
+          eyebrow: 'Hilfe',
+          kicker: 'Hilfe · Erklärvideo',
+          title: 'So funktioniert <span class="ink">İlker Tekin</span>',
+          lead: 'Sieh dir das dreiminütige Video an oder finde deine Frage unten. Alles in der Demo ist fiktiv: Nichts wird wirklich gebucht oder bezahlt.',
+          videoNote: 'Auf Niederländisch gesprochen, mit Untertiteln in sieben Sprachen.',
+          chaptersTitle: 'Kapitel',
+          chapters: {
+            welcome: 'Willkommen',
+            app: 'Die App',
+            book: 'Book now, Looks und Farbe anprobieren',
+            club: 'Club, Haarpass und Frizz',
+            panel: 'Der Salonbildschirm in 3D',
+            link: 'App und Bildschirm zusammen',
+            play: 'Den Tag abspielen',
+          },
+          faqKicker: 'Fragen',
+          faqTitle: 'Häufige Fragen',
+          faq: [
+            ['Wie buche ich einen Termin?', 'Tippe auf Book now und wähle eine Behandlung und deine Haarlänge, dann eine Stylistin oder einen Stylisten (oder egal), einen Tag und eine Uhrzeit. Du bekommst eine Bestätigung mit einem QR-Code zum Einchecken. In der Demo wird nichts wirklich gebucht.'],
+            ['Was kostet es?', 'Die Preise sind die des Salons und richten sich nach der Haarlänge, von 10\u00a0€ für den Pony bis 280\u00a0€. Ansatzfarbe kostet 50\u00a0€; eine Balayage 195\u00a0€ (kurz), 215\u00a0€ (mittellang) oder 250\u00a0€ (lang). Bei Schnitt und Farbe ist Föhnen inklusive.'],
+            ['Wo ist der Salon, und wann ist er geöffnet?', 'In der Poeijersstraat 37, 5642 GA Eindhoven, an der Bushaltestelle Hercules Segherslaan. Geöffnet von Dienstag bis Samstag, 09:00 bis 18:00 Uhr; sonntags und montags geschlossen.'],
+            ['Kann ich ohne Termin vorbeikommen?', 'Ja. Unter Nu in de salon (jetzt im Salon) siehst du, wie voll es ist, wie lange du wartest und wann der erste Stuhl frei ist. Mit Zet me in de inloopwachtrij stellst du dich in die Warteschlange, und der Salon sieht dich sofort auf seinem Bildschirm.'],
+            ['Wie funktioniert das Anprobieren von Farbe?', 'In der Anprobe findet die KI (Google MediaPipe) das Haar auf einem Foto und färbt es, zum Beispiel in Copper Glow, Honey Babylights oder Ice Blonde, ganz oder als Balayage, Babylights oder Ombre. Das läuft in deinem Browser: Dein Foto verlässt dein Handy nicht. Das Beispielfoto ist ein KI-Bild.'],
+            ['Wie funktioniert der Club?', 'Du sammelst einen Punkt pro Euro und steigst von Glow über Gloss und Lustre zu Icon auf. Deine Punkte tauschst du ein, zum Beispiel gegen Pony schneiden (150 Punkte) oder 25\u00a0€ Rabatt (600 Punkte). Es gibt auch Geschenkkarten, und du kannst eine Freundin einladen. Der Club ist eine Idee für die Demo.'],
+            ['Was ist der Haarpass?', 'Alle deine Besuche auf einen Blick, mit der Farbformel, den Produkten am Stuhl und dem, was du mit nach Hause genommen hast. Jede Stylistin sieht dieselbe Formel, damit deine Farbe immer gleich wird.'],
+            ['Was sieht das Team auf dem Salonbildschirm?', 'Den Salon in 3D: fünf Stühle mit Spiegeln, zwei Waschbecken, die Farbbar, den Empfang und das Wartesofa, über jedem Stuhl die Kundin, die Behandlung und die restliche Einwirkzeit der Farbe. Dazu den Kalender, die Kunden mit ihrer Farbformel und das Team, den Verkauf und den Shop als Räume in 3D oder flach in 2D. Speel de dag af spielt den ganzen Tag in einer Minute ab.'],
+            ['Wie kommt das, was ich in der App tue, auf den Bildschirm?', 'Die App und der Salonbildschirm liegen auf derselben Website und teilen den Speicher deines Browsers. Stellst du dich in die Warteschlange, bestellst ein Getränk oder im Shop, schickst Beratungsfotos oder bezahlst, steht es sofort auf dem Bildschirm. Öffne beide nebeneinander im selben Browser, um es zu sehen. Nichts wird an einen Server geschickt.'],
+            ['Ist das echt?', 'Nein, das ist eine Demo. Menü, Preise und Zeiten, Adresse, Öffnungszeiten und die Marken (L’Oréal Professionnel und Olaplex) stammen vom Salon, und İlker erscheint als Hairstylist & Academy. Selin, Noor, Daan, Lina und Kim, alle Kunden, der Club, die Shoppreise und die Getränkekarte sind erfunden. Das Eröffnungsvideo und das Beispielfoto sind KI-Bilder, die Looks 3D-Renderings. Nichts wird wirklich gebucht oder bezahlt.'],
+          ],
+          open: 'App öffnen',
+          admin: 'Salonbildschirm öffnen',
+          footer: 'Demo für İlker Tekin Hairstylist &amp; Academy, Poeijersstraat 37, 5642 GA Eindhoven. Nicht die echte App des Salons.',
+        },
+        it: {
+          lang: 'Lingua',
+          back: 'Torna alla demo',
+          eyebrow: 'Aiuto',
+          kicker: 'Aiuto · video esplicativo',
+          title: 'Come funziona <span class="ink">İlker Tekin</span>',
+          lead: 'Guarda il video di tre minuti o trova qui sotto la tua domanda. Tutto nella demo è fittizio: niente viene davvero prenotato o pagato.',
+          videoNote: 'In olandese, con sottotitoli in sette lingue.',
+          chaptersTitle: 'Capitoli',
+          chapters: {
+            welcome: 'Benvenuti',
+            app: 'L’app',
+            book: 'Book now, looks e prova colore',
+            club: 'Club, passaporto dei capelli e crespo',
+            panel: 'Lo schermo del salone in 3D',
+            link: 'App e schermo insieme',
+            play: 'Riproduci la giornata',
+          },
+          faqKicker: 'Domande',
+          faqTitle: 'Domande frequenti',
+          faq: [
+            ['Come prenoto un appuntamento?', 'Tocca Book now e scegli un trattamento e la lunghezza dei capelli, poi una stylist o uno stylist (o nessuna preferenza), un giorno e un orario. Ricevi una conferma con un codice QR per il check-in. Nella demo non viene prenotato niente davvero.'],
+            ['Quanto costa?', 'I prezzi sono quelli del salone e dipendono dalla lunghezza dei capelli, da 10\u00a0€ per la frangia a 280\u00a0€. Il colore della ricrescita costa 50\u00a0€; un balayage 195\u00a0€ (corti), 215\u00a0€ (medi) o 250\u00a0€ (lunghi). Con taglio e colore la piega è inclusa.'],
+            ['Dov’è il salone e quando è aperto?', 'In Poeijersstraat 37, 5642 GA Eindhoven, vicino alla fermata dell’autobus Hercules Segherslaan. Aperto da martedì a sabato, dalle 09:00 alle 18:00; chiuso la domenica e il lunedì.'],
+            ['Posso passare senza appuntamento?', 'Sì. In Nu in de salon (ora in salone) vedi quanto è pieno, quanto aspetteresti e quando si libera la prima poltrona. Con Zet me in de inloopwachtrij ti metti in coda, e il salone ti vede subito sul suo schermo.'],
+            ['Come funziona la prova colore?', 'Nel camerino l’IA (Google MediaPipe) trova i capelli in una foto e li colora, per esempio in Copper Glow, Honey Babylights o Ice Blonde, su tutti i capelli o come balayage, babylights o ombré. Succede nel tuo browser: la foto non lascia il telefono. La foto di esempio è un’immagine IA.'],
+            ['Come funziona il Club?', 'Guadagni un punto per euro e sali da Glow a Gloss, Lustre e Icon. Scambi i punti, per esempio con il taglio della frangia (150 punti) o 25\u00a0€ di sconto (600 punti). Ci sono anche carte regalo, e puoi invitare un’amica. Il Club è un’idea per la demo.'],
+            ['Cos’è il passaporto dei capelli?', 'Tutte le tue visite in fila, con la formula del colore, i prodotti usati in poltrona e quelli portati a casa. Ogni stylist vede la stessa formula, così il colore viene sempre uguale.'],
+            ['Cosa vede il team sullo schermo del salone?', 'Il salone in 3D: cinque poltrone con specchi, due lavatesta, il color bar, il banco e il divano d’attesa, con sopra ogni poltrona la cliente, il trattamento e il tempo di posa rimasto. Poi l’agenda, i clienti con la loro formula del colore, e il team, le vendite e lo shop come stanze in 3D, o in piano in 2D. Speel de dag af riproduce tutta la giornata in un minuto.'],
+            ['Come arriva sullo schermo ciò che faccio nell’app?', 'L’app e lo schermo del salone sono sullo stesso sito e condividono la memoria del tuo browser. Mettiti in coda, ordina un drink o dallo shop, invia le foto per la consulenza o paga: compare subito sullo schermo. Aprili affiancati nello stesso browser per vederlo. Niente viene inviato a un server.'],
+            ['È reale?', 'No, è una demo. Il listino, i prezzi e i tempi, l’indirizzo, gli orari e i marchi (L’Oréal Professionnel e Olaplex) sono del salone, e İlker compare come Hairstylist & Academy. Selin, Noor, Daan, Lina e Kim, tutti i clienti, il Club, i prezzi dello shop e la carta delle bevande sono inventati. Il video d’apertura e la foto di esempio sono immagini IA, i looks sono render 3D. Niente viene davvero prenotato o pagato.'],
+          ],
+          open: 'Apri l’app',
+          admin: 'Apri lo schermo del salone',
+          footer: 'Demo per İlker Tekin Hairstylist &amp; Academy, Poeijersstraat 37, 5642 GA Eindhoven. Non è la vera app del salone.',
+        },
+      };
+
+      const select = document.getElementById('lang');
+      const video = document.getElementById('video');
+      let chapters = [];
+      let lang = window.LANG || 'nl';
+
+      const clock = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+      /** The subtitles in the page's language; the player's own menu still offers the other six. */
+      function subtitles() {
+        for (const track of video.textTracks) track.mode = track.language === lang ? 'showing' : 'disabled';
+      }
+
+      function renderChapters() {
+        const t = TEXT[lang];
+        const list = document.getElementById('chapters');
+        list.innerHTML = '';
+        for (const chapter of chapters) {
+          const li = document.createElement('li');
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.dataset.start = chapter.start;
+          button.innerHTML = `<time>${clock(chapter.start)}</time><span></span>`;
+          button.querySelector('span').textContent = t.chapters[chapter.id];
+          button.addEventListener('click', () => {
+            video.currentTime = chapter.start + 0.05;
+            video.play();
+          });
+          li.appendChild(button);
+          list.appendChild(li);
+        }
+        markChapter();
+      }
+
+      function markChapter() {
+        const buttons = [...document.querySelectorAll('#chapters button')];
+        const now = video.currentTime;
+        let current = 0;
+        buttons.forEach((b, i) => {
+          if (Number(b.dataset.start) <= now + 0.1) current = i;
+        });
+        buttons.forEach((b, i) => b.setAttribute('aria-current', String(i === current && now > 0)));
+      }
+
+      function renderFaq() {
+        const box = document.getElementById('faq');
+        box.innerHTML = '';
+        for (const [q, a] of TEXT[lang].faq) {
+          const item = document.createElement('details');
+          const summary = document.createElement('summary');
+          summary.textContent = q;
+          const p = document.createElement('p');
+          p.textContent = a;
+          item.append(summary, p);
+          box.appendChild(item);
+        }
+      }
+
+      /** Arabic gets its own fonts next to the demo's, the first time it is chosen. */
+      function arabicFonts() {
+        if (document.getElementById('arabic-fonts')) return;
+        const link = document.createElement('link');
+        link.id = 'arabic-fonts';
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400..700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap';
+        document.head.appendChild(link);
+      }
+
+      function apply(next) {
+        lang = TEXT[next] ? next : 'nl';
+        const t = TEXT[lang];
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        if (lang === 'ar') arabicFonts();
+        document.title = `İlker Tekin · ${t.eyebrow}`;
+        document.querySelectorAll('[data-t]').forEach((el) => {
+          el.innerHTML = t[el.dataset.t];
+        });
+        select.value = lang;
+        select.setAttribute('aria-label', t.lang);
+        // Back to the start page, and into the app and the panel, in the same language.
+        const withLang = (href) => (lang === 'nl' ? href : `${href}?lang=${lang}`);
+        for (const id of ['home', 'back']) document.getElementById(id).href = withLang('../');
+        document.getElementById('open').href = withLang('../app/');
+        document.getElementById('admin').href = withLang('../admin/');
+        renderChapters();
+        renderFaq();
+        subtitles();
+        try {
+          localStorage.setItem('ilker-lang', lang);
+        } catch {
+          // Private windows may refuse storage; the page still works.
+        }
+      }
+
+      video.addEventListener('loadedmetadata', subtitles);
+      video.addEventListener('timeupdate', markChapter);
+      select.addEventListener('change', () => {
+        apply(select.value);
+        // The address keeps the choice, so a reload or a shared link opens in it.
+        const url = new URL(location.href);
+        url.searchParams.set('lang', lang);
+        history.replaceState(null, '', url);
+      });
+      fetch('chapters.json')
+        .then((r) => r.json())
+        .then((list) => {
+          chapters = list;
+          renderChapters();
+        })
+        .catch(() => {});
+      apply(lang);
+    </script>
+  </body>
+</html>
