@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "İlker Tekin",
+    "slug": "ilker-tekin-demo",
+    "scheme": "ilkertekin",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "nl.ilkertekinhairstylist.demo"
+    },
+    "android": {
+      "package": "nl.ilkertekinhairstylist.demo",
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/icon.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "name": "İlker Tekin Hairstylist",
+      "shortName": "İlker Tekin",
+      "themeColor": "#FFFFFF",
+      "backgroundColor": "#FFFFFF"
+    },
+    "plugins": [
+      ["expo-router", { "asyncRoutes": { "web": false } }],
+      "expo-font",
+      ["expo-splash-screen", { "backgroundColor": "#FFFFFF", "image": "./assets/splash-icon.png", "imageWidth": 220 }],
+      "expo-image"
+    ]
+  }
+}
