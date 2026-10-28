@@ -21,9 +21,10 @@ planner. The opening is an AI clip of a hair toss made in Canva.
 
 **Salon screen:** the salon in 3D (five chairs with mirrors, two basins, the colour bar, the desk with the product wall,
 the waiting sofa) with a live card per chair: client, stylist, treatment, step and time left. Who waits, who is next and
-who runs late; the day moves on its own or plays in a minute. The agenda per stylist, clients with their colour
-formulas, the team, sales and the shop with stock. What the member does in the app (check in, join the queue, order a
-drink, send consult photos, book, pay) shows up here at once.
+who runs late; the day moves on its own or plays in a minute. The agenda per stylist and clients with their colour
+formulas. The team (on podiums as high as their day is full), the week's sales (columns per day, by kind of treatment)
+and the shop (the product wall with stock and the pick-up counter) are rooms in 3D too, with a 3D/2D switch. What the
+member does in the app (check in, join the queue, order a drink, send consult photos, book, pay) shows up here at once.
 
 ## Real and demo
 

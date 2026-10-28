@@ -24,6 +24,7 @@ import { useSalonClock } from './clock';
 import { Agenda } from './components/Agenda';
 import { Floor } from './components/Floor';
 import { Clients, ClientDrawer, Sales, Shop, Team } from './components/Panels';
+import { keepMode, SalesRoom, ShopRoom, storedMode, TeamRoom, ViewSwitch, type ViewMode } from './components/Rooms';
 import { eventsToday, feedFor, floorView, ordersOn, revenueUntil, useBridge, useDay } from './data';
 
 /** Where the member app lives on the demo site, next to this panel. */
@@ -38,6 +39,13 @@ const TABS = [
   { id: 'shop', label: 'Shop & voorraad' },
 ] as const;
 type TabId = (typeof TABS)[number]['id'];
+
+/** The tabs that also have a room in 3D, with their heading. */
+const ROOMS: Partial<Record<TabId, { kicker: string; title: string }>> = {
+  team: { kicker: 'Team', title: 'Wie er vandaag staat' },
+  verkoop: { kicker: 'Verkoop', title: 'De week in kleur' },
+  shop: { kicker: 'Shop & voorraad', title: 'Wand en toonbank' },
+};
 
 const fromHash = (): TabId => (TABS.find((t) => `#${t.id}` === window.location.hash)?.id ?? 'vandaag') as TabId;
 
@@ -61,6 +69,12 @@ export function App() {
   const [open, setOpen] = useState<{ appt: string | null; client: string } | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const [agendaDay, setAgendaDay] = useState(0);
+  const [mode, setMode] = useState<ViewMode>(storedMode);
+  const chooseMode = (next: ViewMode) => {
+    setMode(next);
+    keepMode(next);
+  };
+  const room = ROOMS[tab];
 
   useEffect(() => {
     const onHash = () => setTab(fromHash());
@@ -204,7 +218,7 @@ export function App() {
           </div>
           <div className="grid-floor">
             <Floor view={view} onPick={openAppt} demoLabel={demoLabel} />
-            <div className="side">
+            <div className="grid-side" style={{ marginTop: 0 }}>
               <div className="glass panel">
                 <div className="panel-head">
                   <div>
@@ -337,6 +351,22 @@ export function App() {
       ) : null}
 
       {tab === 'klanten' ? <Clients appts={appts} now={now} onOpen={openClient} /> : null}
+      {room ? (
+        <section className="hello">
+          <div>
+            <div className="kicker">{room.kicker}</div>
+            <h1>{room.title}</h1>
+          </div>
+          <ViewSwitch mode={mode} onChange={chooseMode} />
+        </section>
+      ) : null}
+      {room && mode === '3d' ? (
+        <>
+          {tab === 'team' ? <TeamRoom appts={appts} now={now} events={events} /> : null}
+          {tab === 'verkoop' ? <SalesRoom appts={appts} now={now} /> : null}
+          {tab === 'shop' ? <ShopRoom now={now} events={events} /> : null}
+        </>
+      ) : null}
       {tab === 'team' ? <Team appts={appts} now={now} events={events} /> : null}
       {tab === 'verkoop' ? <Sales appts={appts} now={now} events={events} /> : null}
       {tab === 'shop' ? <Shop now={now} events={events} toast={setToast} /> : null}

@@ -102,7 +102,7 @@ export default function Me() {
             <View {...fx(`dye-${t.chroma}`)} style={{ width: 34, height: 34, borderRadius: 11, alignItems: 'center', justifyContent: 'center', backgroundColor: CHROMA[t.chroma].stops[1] }}>
               <Icon name={t.icon} size={17} color="#140C10" />
             </View>
-            <Txt v="h3" size={13}>
+            <Txt v="h3" size={t.title.length > 10 ? 11.5 : 13}>
               {t.title}
             </Txt>
           </Press>

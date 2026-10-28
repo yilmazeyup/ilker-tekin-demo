@@ -14,7 +14,7 @@ export function Floor({ view, onPick, demoLabel }: { view: FloorView; onPick: (a
     if (!host.current) return;
     let stage: Stage;
     try {
-      stage = new Stage(host.current, { camera: OVERVIEW.camera, target: OVERVIEW.target, intro: [14, 16, 20], fov: 30, minDistance: 8, maxDistance: 26, maxPolarAngle: 1.25, fitAspect: 1.45, sway: 0.12 });
+      stage = new Stage(host.current, { camera: OVERVIEW.camera, target: OVERVIEW.target, intro: [16, 19, 25], fov: 30, minDistance: 8, maxDistance: 32, maxPolarAngle: 1.25, fitAspect: 1.75, sway: 0.1 });
     } catch {
       return;
     }

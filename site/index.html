@@ -35,7 +35,8 @@
         margin: 0;
       }
       body {
-        background: linear-gradient(180deg, #eef2ff 0%, #f8f9fe 520px, #ffffff 900px);
+        background: #fbfcff;
+        isolation: isolate;
         color: var(--text);
         font: 400 17px/1.55 var(--sans);
         -webkit-font-smoothing: antialiased;
@@ -43,6 +44,52 @@
       a {
         color: inherit;
       }
+      /* Slow pastel light drifting over the white page, as on the app. */
+      body::before,
+      body::after {
+        content: '';
+        position: fixed;
+        pointer-events: none;
+        z-index: -1;
+        will-change: transform;
+      }
+      body::before {
+        left: -25%;
+        top: -30%;
+        width: 125%;
+        height: 95%;
+        background:
+          radial-gradient(closest-side, rgba(196, 210, 255, 0.8), rgba(196, 210, 255, 0) 72%) 0% 0% / 55% 66% no-repeat,
+          radial-gradient(closest-side, rgba(232, 214, 255, 0.75), rgba(232, 214, 255, 0) 72%) 100% 22% / 50% 60% no-repeat;
+        animation: meshA 30s ease-in-out infinite alternate;
+      }
+      body::after {
+        left: -20%;
+        bottom: -35%;
+        width: 140%;
+        height: 88%;
+        background:
+          radial-gradient(closest-side, rgba(255, 224, 206, 0.7), rgba(255, 224, 206, 0) 72%) 0% 100% / 50% 62% no-repeat,
+          radial-gradient(closest-side, rgba(206, 240, 228, 0.65), rgba(206, 240, 228, 0) 72%) 100% 80% / 48% 58% no-repeat;
+        animation: meshB 36s ease-in-out infinite alternate;
+      }
+      @keyframes meshA {
+        0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); }
+        50% { transform: translate3d(8%, 6%, 0) rotate(8deg) scale(1.08); }
+        100% { transform: translate3d(14%, -4%, 0) rotate(-6deg) scale(1.02); }
+      }
+      @keyframes meshB {
+        0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+        50% { transform: translate3d(-10%, -6%, 0) rotate(-7deg) scale(1.1); }
+        100% { transform: translate3d(6%, -10%, 0) rotate(5deg); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        body::before,
+        body::after {
+          animation: none;
+        }
+      }
+      
       .wrap {
         max-width: 1220px;
         margin: 0 auto;
@@ -502,7 +549,8 @@
             <li>Vijf stoelen met spiegels, de wasbakken, de kleurbar, de balie en de wachtbank: wie waar zit en wat er gebeurt.</li>
             <li>Per stoel de klant, de stylist, de behandeling en hoe lang de kleur nog inwerkt.</li>
             <li>Wie wacht, wie de volgende is en wie uitloopt. De dag loopt vanzelf, of speel hem in een minuut af.</li>
-            <li>De agenda, klanten met hun kleurformule, het team, de verkoop en de shop met voorraad.</li>
+            <li>Het team op podia, de week als kleurkolommen en de productwand met voorraad: in 3D, of plat in 2D met één knop.</li>
+            <li>De agenda en alle klanten met hun kleurformule.</li>
             <li>Probeer het: zet je in de app in de inloopwachtrij of bestel een drankje, en kijk hoe het hier binnenkomt.</li>
           </ul>
           <a class="btn primary" href="admin/">Open het salonscherm</a>

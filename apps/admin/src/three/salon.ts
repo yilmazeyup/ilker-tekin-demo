@@ -37,24 +37,24 @@ export type FloorView = {
 };
 
 /** Where the camera looks from for the whole floor. */
-export const OVERVIEW = { camera: [5.2, 10.8, 13.8] as Vec, target: [0.35, 0.2, -0.3] as Vec };
+export const OVERVIEW = { camera: [6.2, 12.6, 16.8] as Vec, target: [0, 0.1, -0.3] as Vec };
 
-const STATION_X = [-4.9, -2.75, -0.6, 1.55, 3.7];
+const STATION_X = [-6.4, -3.2, 0, 3.2, 6.4];
 const STATION_Z = -3.05;
 const BASINS = [
-  [-5.95, -0.55],
-  [-5.95, 0.95],
+  [-7.9, -0.45],
+  [-7.9, 1.2],
 ] as const;
-const BAR = new THREE.Vector3(0.2, 0, -0.35);
+const BAR = new THREE.Vector3(0, 0, -0.1);
 const SOFA = [
-  [3.1, 2.75],
-  [3.75, 2.75],
-  [4.4, 2.75],
-  [5.05, 2.75],
-  [5.55, 2.1],
-  [5.55, 1.45],
+  [4.7, 2.75],
+  [5.35, 2.75],
+  [6.0, 2.75],
+  [6.65, 2.75],
+  [7.15, 2.1],
+  [7.15, 1.45],
 ] as const;
-const DESK = new THREE.Vector3(-3.9, 0, 2.45);
+const DESK = new THREE.Vector3(-5.6, 0, 2.45);
 
 const mat = (color: string, roughness = 0.6, extra: Partial<THREE.MeshStandardMaterialParameters> = {}) => new THREE.MeshStandardMaterial({ color, roughness, ...extra });
 
@@ -92,7 +92,7 @@ function terrazzo(): THREE.CanvasTexture {
   }
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set(5, 3.5);
+  texture.repeat.set(6.5, 3.5);
   texture.colorSpace = THREE.SRGBColorSpace;
   return texture;
 }
@@ -185,7 +185,7 @@ export class SalonScene {
     this.kim.group.position.set(BAR.x - 1.3, 0, BAR.z + 0.7);
     this.root.add(this.kim.group);
     this.waitTag = el('area-tag wait-tag');
-    this.stage.label(this.waitTag, this.root, [4.3, 2.05, 2.75]);
+    this.stage.label(this.waitTag, this.root, [5.9, 2.05, 2.75]);
     const targets = [...this.stations.flatMap((s) => [s.client.group]), ...this.seats.map((s) => s.person.group)];
     stage.setHoverTargets(targets, () => {});
     stage.onSelect(
@@ -200,29 +200,29 @@ export class SalonScene {
   }
 
   private buildRoom() {
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(13.4, 9.4), mat('#FFFFFF', 0.35, { map: terrazzo(), metalness: 0.05 }));
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(17.8, 9.4), mat('#FFFFFF', 0.35, { map: terrazzo(), metalness: 0.05 }));
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     this.root.add(floor);
     const wallMat = mat('#F6F3EE', 0.9);
-    const back = box(13.4, 3.2, 0.2, wallMat, 0.02);
-    back.position.set(0, 1.6, -4.6);
-    const left = box(0.2, 3.2, 9.4, wallMat, 0.02);
-    left.position.set(-6.7, 1.6, 0);
-    const right = box(0.2, 3.2, 9.4, mat('#EEF1F8', 0.9), 0.02);
-    right.position.set(6.7, 1.6, 0);
+    const back = box(17.8, 3.6, 0.2, wallMat, 0.02);
+    back.position.set(0, 1.8, -4.6);
+    const left = box(0.2, 3.6, 9.4, wallMat, 0.02);
+    left.position.set(-8.9, 1.8, 0);
+    const right = box(0.2, 3.6, 9.4, mat('#EEF1F8', 0.9), 0.02);
+    right.position.set(8.9, 1.8, 0);
     this.root.add(back, left, right);
     // Low front wall with the door gap, so the camera looks straight in.
     const frontMat = mat('#DCE2F2', 0.7);
-    const frontL = box(4.6, 0.5, 0.18, frontMat, 0.02);
-    frontL.position.set(-4.4, 0.25, 4.6);
-    const frontR = box(7.0, 0.5, 0.18, frontMat, 0.02);
-    frontR.position.set(3.2, 0.25, 4.6);
+    const frontL = box(6.0, 0.5, 0.18, frontMat, 0.02);
+    frontL.position.set(-5.9, 0.25, 4.6);
+    const frontR = box(10.4, 0.5, 0.18, frontMat, 0.02);
+    frontR.position.set(3.7, 0.25, 4.6);
     this.root.add(frontL, frontR);
     const sign = neonSign();
-    sign.position.set(-0.6, 2.75, -4.48);
+    sign.position.set(0, 3.0, -4.48);
     this.root.add(sign);
-    const strip = box(13.2, 0.04, 0.04, mat('#2741D6', 0.3, { emissive: new THREE.Color('#3B57F0'), emissiveIntensity: 0.8 }), 0.01);
+    const strip = box(17.6, 0.04, 0.04, mat('#2741D6', 0.3, { emissive: new THREE.Color('#3B57F0'), emissiveIntensity: 0.8 }), 0.01);
     strip.position.set(0, 0.04, -4.48);
     this.root.add(strip);
 
@@ -231,8 +231,8 @@ export class SalonScene {
     key.position.set(4, 9, 6);
     key.castShadow = true;
     key.shadow.mapSize.set(2048, 2048);
-    key.shadow.camera.left = -8;
-    key.shadow.camera.right = 8;
+    key.shadow.camera.left = -10;
+    key.shadow.camera.right = 10;
     key.shadow.camera.top = 7;
     key.shadow.camera.bottom = -7;
     key.shadow.bias = -0.0004;
@@ -341,13 +341,13 @@ export class SalonScene {
       back.rotation.z = -0.7;
       this.root.add(unit, bowl, seat, back);
     }
-    this.areaLabel('Wasbakken', [-5.6, 1.9, 0.2]);
+    this.areaLabel('Wasbakken', [-7.6, 1.9, 0.4]);
     // The colour bar: a marble island with bowls, brushes and tubes.
-    const island = box(3.0, 0.92, 0.82, mat('#2741D6', 0.45), 0.05);
+    const island = box(3.6, 0.92, 0.82, mat('#2741D6', 0.45), 0.05);
     island.position.set(BAR.x, 0.46, BAR.z);
-    const top = box(3.12, 0.06, 0.92, marble, 0.03);
+    const top = box(3.72, 0.06, 0.92, marble, 0.03);
     top.position.set(BAR.x, 0.95, BAR.z);
-    const rail = box(3.0, 0.03, 0.03, brass, 0.01);
+    const rail = box(3.6, 0.03, 0.03, brass, 0.01);
     rail.position.set(BAR.x, 0.7, BAR.z + 0.43);
     this.root.add(island, top, rail);
     const tubes = ['#8A0A1E', '#B83A12', '#C98316', '#4A2E1C', '#4A23C9', '#5A7FE6', '#F2243C', '#FFC24B'];
@@ -366,11 +366,11 @@ export class SalonScene {
     this.areaLabel('Kleurbar', [BAR.x, 1.75, BAR.z]);
     // Coffee for the chairs, in the back corner.
     const counter = box(1.1, 0.95, 0.6, mat('#DCE2F2', 0.5), 0.04);
-    counter.position.set(5.95, 0.47, -3.9);
+    counter.position.set(8.1, 0.47, -3.9);
     const machine = box(0.42, 0.42, 0.36, mat('#C9A46A', 0.3, { metalness: 0.8 }), 0.05);
-    machine.position.set(5.85, 1.17, -3.95);
+    machine.position.set(8.0, 1.17, -3.95);
     this.root.add(counter, machine);
-    this.areaLabel('Koffie', [5.95, 1.95, -3.9]);
+    this.areaLabel('Koffie', [8.1, 1.95, -3.9]);
   }
 
   private buildFront() {
@@ -386,11 +386,11 @@ export class SalonScene {
     const products = ['#F4F1EC', '#1B1410', '#3A0D10', '#0E2A2B', '#2A1238', '#151515', '#F4F1EC', '#2B2015'];
     for (let row = 0; row < 3; row++) {
       const plank = box(0.36, 0.04, 2.4, shelf, 0.01);
-      plank.position.set(-6.45, 0.9 + row * 0.55, 2.4);
+      plank.position.set(-8.6, 0.9 + row * 0.55, 2.4);
       this.root.add(plank);
       for (let i = 0; i < 9; i++) {
         const bottle = cylinder(0.05, 0.24, mat(products[(i + row * 3) % products.length], 0.35));
-        bottle.position.set(-6.45, 1.04 + row * 0.55, 1.3 + i * 0.27);
+        bottle.position.set(-8.6, 1.04 + row * 0.55, 1.3 + i * 0.27);
         this.root.add(bottle);
       }
     }
@@ -398,19 +398,19 @@ export class SalonScene {
     // The waiting sofa, facing into the salon.
     const velvet = mat('#3550D8', 0.85);
     const sofa = box(2.6, 0.42, 0.8, velvet, 0.12);
-    sofa.position.set(4.1, 0.24, 3.05);
+    sofa.position.set(5.7, 0.24, 3.05);
     const back = box(2.6, 0.6, 0.2, velvet, 0.08);
-    back.position.set(4.1, 0.62, 3.4);
+    back.position.set(5.7, 0.62, 3.4);
     const side = box(0.8, 0.42, 1.6, velvet, 0.12);
-    side.position.set(5.75, 0.24, 1.95);
+    side.position.set(7.35, 0.24, 1.95);
     const sideBack = box(0.2, 0.6, 1.6, velvet, 0.08);
-    sideBack.position.set(6.1, 0.62, 1.95);
+    sideBack.position.set(7.7, 0.62, 1.95);
     const table = cylinder(0.38, 0.38, mat('#C9A46A', 0.3, { metalness: 0.8 }), 0.38, 32);
-    table.position.set(4.3, 0.19, 1.85);
+    table.position.set(5.9, 0.19, 1.85);
     const plant = cylinder(0.2, 0.42, mat('#E9E1D6', 0.5), 0.24);
-    plant.position.set(2.35, 0.21, 3.6);
+    plant.position.set(3.95, 0.21, 3.6);
     const leaves = new THREE.Mesh(new THREE.IcosahedronGeometry(0.42, 1), mat('#2F7D5B', 0.7, { flatShading: true }));
-    leaves.position.set(2.35, 0.85, 3.6);
+    leaves.position.set(3.95, 0.85, 3.6);
     leaves.castShadow = true;
     this.root.add(sofa, back, side, sideBack, table, plant, leaves);
     // Seats on the sofa and a spot at the desk for paying.

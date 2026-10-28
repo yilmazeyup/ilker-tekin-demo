@@ -6,9 +6,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { C, fx, MAX_WIDTH, PAD } from '../theme';
 import { IconButton, Txt } from './ui';
 
-/** The dark page with its slow colour ribbons and a touch of grain, behind every screen. */
+/** The page behind every screen: white with slowly flowing pastel light and a touch of grain. */
 export function Backdrop({ style }: { style?: StyleProp<ViewStyle> }) {
-  return <View pointerEvents="none" {...fx('aurora grain')} style={[StyleSheet.absoluteFill, { backgroundColor: C.night }, style]} />;
+  // Soft pastel light drifting slowly over white, a ribbon of colour flowing through, and a touch of grain.
+  return (
+    <View pointerEvents="none" {...fx('aurora')} style={[StyleSheet.absoluteFill, { backgroundColor: C.night }, style]}>
+      <View {...fx('flow')} />
+    </View>
+  );
 }
 
 type ScreenProps = PropsWithChildren<{
