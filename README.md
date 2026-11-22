@@ -4,9 +4,8 @@ A member app and a salon screen for **İlker Tekin Hairstylist & Academy**, the 
 Eindhoven. This is a demo with test data only: a fictional team besides İlker, fictional clients, and no real bookings
 or payments.
 
-- Live demo: https://yilmazeyup.github.io/ilker-tekin-demo/ (a start page with the app and the salon screen side by side)
-- Member app: https://yilmazeyup.github.io/ilker-tekin-demo/app/
-- Salon screen: https://yilmazeyup.github.io/ilker-tekin-demo/admin/ (`?at=2026-10-28T14:20` sets the salon clock)
+The demo is not public. Its address, ilkertekin.savastana.com, shows the same "coming soon" page as savastana.com;
+the demo itself lives in a private folder there, and only people who get the link to that folder see it.
 
 ## What's in it
 
@@ -78,10 +77,15 @@ It opens on http://localhost:5186. `npm run typecheck` checks both.
 
 ## The demo site
 
-`npm run site` builds what GitHub Pages publishes into `_site/`: the start page at `/`, the app at `/app/`, the salon
-screen at `/admin/`, and a copy of the app as `404.html`, so a link straight to a screen opens the app on that screen.
-`npm run site:serve` serves it on http://localhost:8105/ilker-tekin-demo/. Every push to `main` builds and publishes
-the site (`.github/workflows/pages.yml`).
+`npm run site` builds the demo into `_site/`: the start page at `/`, the app at `/app/`, the salon screen at `/admin/`,
+the explainer video at `/hulp/`, and a copy of the app as `404.html`, so a link straight to a screen opens the app on
+that screen. `npm run site:serve` serves it on http://localhost:8105/ilker-tekin-demo/.
+
+Every push to `main` builds and publishes the site (`.github/workflows/pages.yml`), with the repository secret
+`DEMO_PATH` set: the demo then goes into a private folder of that name, and the root gets `cover/`, the "coming soon"
+page, which is also the 404 page and hands links to app screens inside the folder over to the app. Without the
+secret the workflow stops rather than publish the demo at the root. To try that build locally:
+`DEMO_PATH=<folder> npm run site`, then `node scripts/serve-site.mjs 8106 /`.
 
 ## Notes
 

@@ -1,0 +1,80 @@
+<!doctype html>
+<!-- The root of this site: the same "coming soon" page as savastana.com. The demo itself is built into a private
+     folder whose name is the DEMO_PATH secret of this repository (see scripts/build-site.mjs). -->
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Savastana · Binnenkort</title>
+<meta name="description" content="Savastana: binnenkort online.">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Savastana · Binnenkort">
+<meta property="og:description" content="Binnenkort online.">
+<meta property="og:image" content="https://savastana.com/img/og.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0F0D0A">
+<link rel="icon" href="https://savastana.com/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Inter:wght@400;500&family=IBM+Plex+Mono:wght@500&family=Noto+Naskh+Arabic:wght@400;500&display=swap">
+<style>
+/* Yakında sayfası: tek ekran, koyu zemin, altın vurgu. Proje bağlantıları burada listelenmez. */
+:root { --bg: #0F0D0A; --ink: #F5F1E9; --muted: rgba(245, 241, 233, .58); --line: rgba(245, 241, 233, .16); --gold: #D4AF37;
+  --serif: 'Fraunces', Georgia, serif; --sans: 'Inter', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace; color-scheme: dark; }
+html[lang="ar"] { --serif: 'Noto Naskh Arabic', 'Fraunces', serif; --sans: 'Noto Naskh Arabic', 'Inter', sans-serif; }
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: radial-gradient(900px 600px at 70% 20%, rgba(212, 175, 55, .10), transparent 60%), var(--bg); color: var(--ink); font: 400 17px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+.page { min-height: 100%; display: grid; grid-template-rows: auto 1fr auto; padding: max(22px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); max-width: 1240px; margin: 0 auto; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.mark { font: 400 20px/1 var(--serif); letter-spacing: .32em; text-transform: uppercase; }
+.mark b, h1 b { font-weight: inherit; color: var(--gold); }
+.langs { display: flex; flex-wrap: wrap; gap: 2px; border: 1px solid var(--line); border-radius: 999px; padding: 3px; }
+.langs button { all: unset; cursor: pointer; padding: 6px 10px; border-radius: 999px; font: 500 11px/1 var(--mono); letter-spacing: .08em; color: var(--muted); }
+.langs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.langs button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+main { display: grid; align-content: center; padding: 48px 0; }
+.eye { font: 500 12px/1.4 var(--mono); letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
+h1 { margin: 22px 0 0; font: 300 clamp(64px, 14vw, 176px)/.92 var(--serif); letter-spacing: -.02em; }
+h1 em { font-style: italic; color: var(--gold); }
+p.lead { margin: 28px 0 0; max-width: 34ch; font-size: clamp(17px, 2vw, 21px); color: var(--muted); }
+.bar { margin-top: 44px; width: min(320px, 70%); height: 1px; background: var(--line); position: relative; overflow: hidden; }
+.bar::after { content: ''; position: absolute; inset: 0; width: 38%; background: var(--gold); animation: run 3.2s cubic-bezier(.6, 0, .4, 1) infinite; }
+@keyframes run { from { translate: -100% 0; } to { translate: 270% 0; } }
+footer { font: italic 400 14px/1.5 var(--serif); color: var(--muted); }
+footer b { font-style: normal; font-weight: 500; color: var(--ink); }
+html[dir="rtl"] .bar::after { animation-direction: reverse; }
+@media (prefers-reduced-motion: reduce) { .bar::after { animation: none; translate: 80% 0; } }
+@media (max-width: 560px) { .mark { font-size: 16px; letter-spacing: .24em; } .langs button { padding: 6px 7px; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header><div class="mark">Savast<b>a</b>na</div><div class="langs" role="group" aria-label="Taal / Language"></div></header>
+  <main>
+    <div class="eye" data-t="eye"></div>
+    <h1 data-t="h"></h1>
+    <p class="lead" data-t="p"></p>
+    <div class="bar" aria-hidden="true"></div>
+  </main>
+  <footer>Carefully and with love presented by <b>Faruk Kilic &amp; Eyup Yilmaz</b> (2026)</footer>
+</div>
+<script>
+// metinler: [nl, en, de, fr, tr, ar] — varsayılan Felemenkçe
+const LS = ['nl', 'en', 'de', 'fr', 'tr', 'ar'], LN = { nl: 'Nederlands', en: 'English', de: 'Deutsch', fr: 'Français', tr: 'Türkçe', ar: 'العربية' };
+const T = {
+  title: ['Savastana · Binnenkort', 'Savastana · Coming soon', 'Savastana · Demnächst', 'Savastana · Bientôt', 'Savastana · Çok yakında', 'Savastana · قريبًا'],
+  eye: ['Savastana · Nederland', 'Savastana · Netherlands', 'Savastana · Niederlande', 'Savastana · Pays-Bas', 'Savastana · Hollanda', 'Savastana · هولندا'],
+  h: ['Binnen&shy;kort <em>online</em>.', 'Coming <em>soon</em>.', 'Dem&shy;nächst <em>online</em>.', 'Bientôt <em>en ligne</em>.', 'Çok <em>yakında</em>.', '<em>قريبًا</em>.'],
+  p: ['We werken aan iets nieuws. Kom snel terug.', 'We are working on something new. Check back soon.', 'Wir arbeiten an etwas Neuem. Schauen Sie bald wieder vorbei.', 'Nous préparons quelque chose de nouveau. Revenez bientôt.', 'Yeni bir şey üzerinde çalışıyoruz. Yakında tekrar bakın.', 'نعمل على شيء جديد. عُد قريبًا.'],
+};
+const pick = () => { const q = new URLSearchParams(location.search).get('lang'); if (LS.includes(q)) return q; try { const s = localStorage.getItem('sv-lang'); if (LS.includes(s)) return s; } catch (e) {} return 'nl'; };
+let L = pick();
+function apply() { const i = LS.indexOf(L); document.documentElement.lang = L; document.documentElement.dir = L === 'ar' ? 'rtl' : 'ltr'; document.title = T.title[i];
+  for (const e of document.querySelectorAll('[data-t]')) e.innerHTML = T[e.dataset.t][i];
+  for (const b of document.querySelectorAll('.langs button')) b.setAttribute('aria-pressed', b.dataset.l === L); }
+document.querySelector('.langs').innerHTML = LS.map(l => `<button type="button" data-l="${l}" title="${LN[l]}" lang="${l}">${l.toUpperCase()}</button>`).join('');
+document.querySelectorAll('.langs button').forEach(b => b.addEventListener('click', () => { L = b.dataset.l; try { localStorage.setItem('sv-lang', L); } catch (e) {} apply(); }));
+apply();
+</script>
+</body>
+</html>

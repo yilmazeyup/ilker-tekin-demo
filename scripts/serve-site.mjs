@@ -1,12 +1,13 @@
-// Serves _site/ the way GitHub Pages does: under the base path, folders with a trailing slash, and 404.html (the app)
-// for any address that is not a file. Usage: node scripts/serve-site.mjs [port], by default 8099
+// Serves _site/ the way GitHub Pages does: under the base path, folders with a trailing slash, and 404.html for any
+// address that is not a file. Usage: node scripts/serve-site.mjs [port] [base], by default 8105 and /ilker-tekin-demo;
+// pass "/" as the base for a site built with DEMO_PATH, which lives at the root like ilkertekin.savastana.com.
 import fs from 'node:fs';
 import http from 'node:http';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('../_site', import.meta.url));
-const base = '/ilker-tekin-demo';
+const base = (process.argv[3] ?? '/ilker-tekin-demo').replace(/\/$/, '');
 const port = Number(process.argv[2] ?? 8105);
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -31,7 +32,7 @@ if (!fs.existsSync(path.join(root, '404.html'))) {
 http
   .createServer((req, res) => {
     const { pathname } = new URL(req.url ?? '/', 'http://localhost');
-    if (pathname === '/' || pathname === base) return redirect(res, `${base}/`);
+    if (base && (pathname === '/' || pathname === base)) return redirect(res, `${base}/`);
     let file = path.join(root, '404.html');
     let status = 404;
     if (pathname.startsWith(`${base}/`)) {

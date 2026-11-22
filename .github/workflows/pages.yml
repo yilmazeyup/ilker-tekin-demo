@@ -1,7 +1,9 @@
-# Builds the demo site on every push to main and publishes it on GitHub Pages:
-#   /         start page that explains the demo (site/index.html)
-#   /app/     the member app, exported for the web (also as 404.html, so a link straight to a screen opens it)
-#   /admin/   the salon panel with the 3D floor
+# Builds the demo site on every push to main and publishes it on GitHub Pages. The root shows the same "coming soon"
+# page as savastana.com; the demo itself lives in a private folder named by the DEMO_PATH secret:
+#   /<folder>/         start page that explains the demo (site/index.html)
+#   /<folder>/app/     the member app, exported for the web
+#   /<folder>/admin/   the salon panel with the 3D floor
+#   /<folder>/hulp/    the explainer video
 # See scripts/build-site.mjs.
 name: Demo site
 
@@ -43,7 +45,12 @@ jobs:
         run: npm run typecheck
 
       - name: Build the site
-        run: node scripts/build-site.mjs /
+        env:
+          DEMO_PATH: ${{ secrets.DEMO_PATH }}
+        run: |
+          # Without the secret the demo would land at the root for everyone to see, so stop instead.
+          test -n "$DEMO_PATH" || { echo "The DEMO_PATH secret (the demo's private folder) is not set."; exit 1; }
+          node scripts/build-site.mjs
 
       - uses: actions/upload-pages-artifact@v3
         with:
