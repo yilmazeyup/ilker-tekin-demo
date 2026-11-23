@@ -4,8 +4,9 @@ A member app and a salon screen for **İlker Tekin Hairstylist & Academy**, the 
 Eindhoven. This is a demo with test data only: a fictional team besides İlker, fictional clients, and no real bookings
 or payments.
 
-The demo is not public. Its address, ilkertekin.savastana.com, shows the same "coming soon" page as savastana.com;
-the demo itself lives in a private folder there, and only people who get the link to that folder see it.
+The demo is offline: GitHub Pages is switched off for this repository and the "Demo site" workflow is disabled.
+To publish it again, turn Pages back on with GitHub Actions as the source, enable the workflow and run it; with the
+`DEMO_PATH` secret set it builds the demo into a private folder behind a "coming soon" page (see below).
 
 ## What's in it
 
